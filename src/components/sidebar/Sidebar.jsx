@@ -3,11 +3,11 @@ import MiddleContainer from "./MiddleContainer";
 import BottomContainer from "./BottomContainer";
 import styled from "styled-components"
 
-function Sidebar(){
+function Sidebar({index}){
      return(
           <Container>
                <TopContainer/>
-               <MiddleContainer/>
+               <MiddleContainer index={index}/>
                <BottomContainer/>
           </Container>
      )

@@ -5,20 +5,11 @@ import icon from "../../assets/icon/list-link.svg"
 import whiteStar from "../../assets/icon/empty-star.svg"
 import YellowStar from "../../assets/icon/filled-star.svg"
 
-// type: {
-//      "사업화": true, 
-//      "기술개발(R&D)" : false, 
-//      "시설∙공간∙보육" : false, 
-//      "멘토링∙컨설팅∙교육" : false,
-//      "행사∙네트워크" : false,
-//      "융자" : false,
-//      "인력" : false, 
-//      "글로벌 진출" : false,
-//      "공공기관" : true,
-//      "민간기관" : false},
 function ListData({business}){
      let navigate=useNavigate();
      let [star, setStar] = useState(business.importance);
+     console.log(business.type)
+     const text = ["사업화", "기술개발(R&D)", "시설∙공간∙보육", "멘토링∙컨설팅∙교육","행사∙네트워크", "융자", "인력", "글로벌 진출", "공공기관", "민간기관" ]
      return(
           <Container>
                <TopContainer>
@@ -35,9 +26,9 @@ function ListData({business}){
                </TopContainer>
                <BottomContainer>
                {
-                  business.type.map((type, idx)=>(
-                    <Button>{type}</Button>
-                  ))
+                    business.type.map((type, idx)=>(
+                         type!==false?<Button>{text[idx]}</Button>:null
+                    ))
                }  
                </BottomContainer>
           </Container>

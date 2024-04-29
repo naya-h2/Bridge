@@ -6,7 +6,7 @@ import List from "../../components/list/List"
 function Layout(){
      return(
           <Wrapper>
-               <Sidebar/>
+               <Sidebar index={3}/>
                <ContainerWrapper>
                     <Filter/>
                     <List/>
