@@ -29,6 +29,7 @@ const Container = styled.div`
 
   position: fixed;
   left: 0;
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`

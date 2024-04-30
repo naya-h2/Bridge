@@ -1,121 +1,149 @@
-import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
-import styled from "styled-components"
-import icon from "../../assets/icon/list-link.svg"
-import whiteStar from "../../assets/icon/empty-star.svg"
-import YellowStar from "../../assets/icon/filled-star.svg"
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import styled from 'styled-components';
+import icon from '../../assets/icon/list-link.svg';
+import whiteStar from '../../assets/icon/empty-star.svg';
+import YellowStar from '../../assets/icon/filled-star.svg';
 
-function ListData({business}){
-     let navigate=useNavigate();
-     let [star, setStar] = useState(business.importance);
-     console.log(business.type)
-     const text = ["사업화", "기술개발(R&D)", "시설∙공간∙보육", "멘토링∙컨설팅∙교육","행사∙네트워크", "융자", "인력", "글로벌 진출", "공공기관", "민간기관" ]
-     return(
-          <Container>
-               <TopContainer>
-                    <Icon src={icon} onClick={()=>{navigate(`${business.link}`)}}/>
-                    <Title>{business.title}</Title>
-                    <Dday>D-{business.dday}</Dday>
-                    <Agent>{business.agent}</Agent>
-                    <Date>{business.date}</Date>
-                    <Star src={
-                         star ? whiteStar:YellowStar} 
-                         onClick={()=>{
-                              setStar(!star);
-                         }}/>
-               </TopContainer>
-               <BottomContainer>
-               {
-                    business.type.map((type, idx)=>(
-                         type!==false?<Button>{text[idx]}</Button>:null
-                    ))
-               }  
-               </BottomContainer>
-          </Container>
-     )
+function ListData({ business }) {
+  let navigate = useNavigate();
+  let [star, setStar] = useState(business.importance);
+  // console.log(business.type)
+  const text = ['사업화', '기술개발(R&D)', '시설∙공간∙보육', '멘토링∙컨설팅∙교육', '행사∙네트워크', '융자', '인력', '글로벌 진출', '공공기관', '민간기관'];
+  return (
+    <Container>
+      <TopContainer>
+        <TitleSection>
+          <Icon
+            src={icon}
+            onClick={() => {
+              navigate(`${business.link}`);
+            }}
+          />
+          <Title>{business.title}</Title>
+          <Dday>D-{business.dday}</Dday>
+        </TitleSection>
+        <DetailSection>
+          <Agent>{business.agent}</Agent>
+          <Date>{business.date}</Date>
+        </DetailSection>
+        <Star
+          src={star ? whiteStar : YellowStar}
+          onClick={() => {
+            setStar((prev) => !prev);
+          }}
+        />
+      </TopContainer>
+      <BottomContainer>{business.type.map((type, idx) => (type !== false ? <Button>{text[idx]}</Button> : null))}</BottomContainer>
+    </Container>
+  );
 }
 export default ListData;
 
 const Container = styled.div`
-     display: flex;
-     flex-direction: column;
-     width: 100%;
-     height: 127px;
+  width: 100%;
 
-     background: #F9FCFF;
-`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding: 32px;
+  padding-left: 12px;
+  padding-right: 52px;
+
+  position: relative;
+`;
 
 const TopContainer = styled.div`
-     display: flex;
-     align-items: center;
-     width: 100%;
-     height: 63px;
-`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  margin-right: 16px;
+`;
+
+const TitleSection = styled.div`
+  width: 60%;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+`;
+
+const DetailSection = styled.div`
+  width: 40%;
+
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 const BottomContainer = styled.div`
-     width: 100%;
-     height: 64px;
-
-     display: flex;
-     align-items: flex-start;
-     margin-left : 52px;
-     gap: 10px;
-`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
 const Icon = styled.img`
-     width: 32px;
-     height: 32px;
-`
+  width: 32px;
+  height: 32px;
 
-const Title = styled.h1`
-     margin-left: 20px;
-     font-weight: 500;
-     font-size: 20px;
-     line-height: 29px;
-     letter-spacing: -0.02em;
+  cursor: pointer;
+`;
 
-     color: #000000;
-`
+const Title = styled.p`
+  max-width: 70%;
+
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: -0.4px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 const Dday = styled.p`
-     margin-left: 15px;
-     font-weight: 500;
-     font-size: 18px;
-     line-height: 23px;
-     letter-spacing: -0.02em;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  color: #3686ff;
 
-     color: #3686FF;
-`
+  white-space: nowrap;
+`;
 const Agent = styled.p`
-     margin-left : 100px;
-     font-weight: 400;
-     font-size: 16px;
-     line-height: 23px;
-     letter-spacing: -0.02em;
-
-     color: #525252;
-`
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: #525252;
+`;
 
 const Date = styled.p`
-     margin-left : 40px;
-     font-weight: 400;
-     font-size: 16px;
-     line-height: 23px;
-     letter-spacing: -0.02em;
+  min-width: 119px;
 
-     color: #525252;
-`
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  color: #525252;
+`;
 const Star = styled.img`
-     margin-left : auto; 
-     width: 32px;
-     height: 32px;
-`
+  width: 32px;
+  height: 32px;
+
+  position: absolute;
+  top: 32px;
+  right: 23px;
+
+  cursor: pointer;
+`;
 
 const Button = styled.a`
-     display: flex;
-     align-items: center;
-     width: fit-content;
+  display: flex;
+  align-items: center;
+  width: fit-content;
 
-     background: #FFFFFF;
-     border: 1px solid #525252;
-     border-radius: 40px;
-     padding: 6px 16px;
-
-`
+  background: #ffffff;
+  border: 1px solid #525252;
+  border-radius: 40px;
+  padding: 6px 16px;
+`;

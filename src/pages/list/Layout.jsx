@@ -5,27 +5,28 @@ import List from '../../components/list/List';
 
 function Layout() {
   return (
-    <Wrapper>
+    <>
       <Sidebar index={3} />
       <ContainerWrapper>
         <Filter />
+        <Line />
         <List />
       </ContainerWrapper>
-    </Wrapper>
+    </>
   );
 }
 export default Layout;
 
-const Wrapper = styled.div`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-`;
 const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 296px);
-  height: 100%;
+  max-width: calc(100vw - 296px);
+  min-width: 1020px;
 
-  padding-left: 296px;
+  margin-left: 296px;
+  padding: 32px 42px;
+`;
+
+const Line = styled.div`
+  border-bottom: 1px solid #dcdcdc;
 `;
