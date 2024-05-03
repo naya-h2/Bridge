@@ -1,32 +1,72 @@
 import styled from 'styled-components';
 import Sidebar from '../../components/sidebar/Sidebar';
 import CustomCalendar from '../../components/calendar/CustomCalendar';
-import Chip from '../../components/commons/Chip';
+import FilterContent from '../../components/commons/FilterContent';
+import SearchButton from '../../components/commons/SearchButton';
 function Layout() {
   return (
     <>
       <Sidebar index={1} />
-      <ContainerWrapper>
+      <Container>
+        <Title>캘린더</Title>
         {/* <Chip hasActive={true}>3</Chip>
         <Chip hasActive={false}>12</Chip> */}
-        <CustomCalendar />
-      </ContainerWrapper>
+        <CalendarWrapper>
+          <CustomCalendar />
+          <FilterBox>
+            <FilterWrapper>
+              필터
+              <SearchButton />
+            </FilterWrapper>
+            <FilterContent />
+          </FilterBox>
+        </CalendarWrapper>
+      </Container>
     </>
   );
 }
 export default Layout;
 
-const Wrapper = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-`;
-const ContainerWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 16px;
   max-width: calc(100vw - 296px);
   min-width: 1020px;
 
   margin-left: 296px;
   padding: 32px 42px;
+`;
+
+const Title = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.48px;
+`;
+
+const CalendarWrapper = styled.div`
+  display: flex;
+  gap: 32px;
+`;
+
+const FilterBox = styled.div`
+  width: 348px;
+  padding: 36px;
+
+  border-radius: 8px;
+  background: #fafafa;
+
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.36px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
