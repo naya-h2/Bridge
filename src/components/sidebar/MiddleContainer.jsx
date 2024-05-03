@@ -7,11 +7,10 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const menuList = [
-  { icon: menu1, text: ' 홈 대시보드', url: '/' },
+  { icon: menu1, text: ' 홈 대시보드', url: '/board' },
   { icon: menu2, text: '캘린더', url: '/calendar' },
-  { icon: menu3, text: 'AI 사업계획서', url: '/' },
   { icon: menu4, text: '지원사업 리스트', url: '/list' },
-  { icon: menu5, text: '설정', url: '/' },
+  { icon: menu5, text: '설정', url: '/setting' },
 ];
 
 function MiddleContainer({ index }) {
