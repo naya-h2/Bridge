@@ -4,10 +4,10 @@ function TopContainer() {
   return (
     <Container>
       <Logo src={LogoImg} />
-      <TextContainer>
+      {/* <TextContainer>
         <MainText>팀브릿지</MainText>
         <SubText>바이오공학 분야 | 예비창업가</SubText>
-      </TextContainer>
+      </TextContainer> */}
     </Container>
   );
 }
@@ -17,9 +17,9 @@ const Container = styled.div`
   gap: 12px;
 
   width: 100%;
-  height: 160px;
+  /* height: 160px; */
 
-  padding: 47px 36px;
+  padding: 40px 36px;
 `;
 const Logo = styled.img`
   width: 56px;

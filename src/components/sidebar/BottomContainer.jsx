@@ -15,30 +15,25 @@ function BottomContainer() {
 export default BottomContainer;
 
 const Container = styled.div`
-  height: 200px;
-  width: 100%;
+  padding: 40px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 const Image = styled.img`
   width: 40px;
   height: 40px;
-  margin-left: 37px;
+
+  margin-bottom: 12px;
 `;
 const P = styled.p`
-  width: 135px;
-  height: 58px;
-  margin-left: 42px;
   font-weight: 700;
   font-size: 20px;
   line-height: 29px;
-  letter-spacing: -0.02em;
-  color: black;
 `;
 const SmallP = styled.p`
-  margin-left: 42px;
-
   font-weight: 400;
   font-size: 12px;
-  line-height: 17px;
-  letter-spacing: -0.02em;
   color: #9d9a9a;
 `;
