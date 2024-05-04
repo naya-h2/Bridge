@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import icon from '../../assets/icon/list-link.svg';
 import whiteStar from '../../assets/icon/empty-star.svg';
 import YellowStar from '../../assets/icon/filled-star.svg';
+import { format } from 'date-fns';
 
-function ListData({ business }) {
-  let navigate = useNavigate();
-  let [star, setStar] = useState(business.importance);
-  // console.log(business.type)
-  const text = ['사업화', '기술개발(R&D)', '시설∙공간∙보육', '멘토링∙컨설팅∙교육', '행사∙네트워크', '융자', '인력', '글로벌 진출', '공공기관', '민간기관'];
+const AGENT_TYPE = ['공공기관', '민간기관'];
+
+function BusinessCard({ business }) {
+  const navigate = useNavigate();
+  // const [star, setStar] = useState(business.importance);
 
   return (
     <Container>
@@ -22,24 +23,30 @@ function ListData({ business }) {
             }}
           />
           <Title>{business.title}</Title>
-          <Dday>D-{business.dday}</Dday>
+          <Dday>D-{business.dDay}</Dday>
         </TitleSection>
         <DetailSection>
           <Agent>{business.agent}</Agent>
-          <Date>{business.date}</Date>
+          <Date>{format(business.deadline, 'yyyy년 MM월 dd일')}</Date>
         </DetailSection>
-        <Star
+        {/* <Star
           src={star ? whiteStar : YellowStar}
           onClick={() => {
             setStar((prev) => !prev);
           }}
-        />
+        /> */}
       </TopContainer>
-      <BottomContainer>{business.type.map((type, idx) => (type !== false ? <Button key={type}>{text[idx]}</Button> : null))}</BottomContainer>
+      <BottomContainer>
+        {business.types.map((type) => (
+          <TypeTag key={type} $isAgent={AGENT_TYPE.includes(type)}>
+            {type}
+          </TypeTag>
+        ))}
+      </BottomContainer>
     </Container>
   );
 }
-export default ListData;
+export default BusinessCard;
 
 const Container = styled.div`
   width: 100%;
@@ -138,12 +145,12 @@ const Star = styled.img`
   cursor: pointer;
 `;
 
-const Button = styled.a`
+const TypeTag = styled.p`
   display: flex;
   align-items: center;
-  width: fit-content;
 
-  background: #ffffff;
+  background: ${({ $isAgent }) => (!$isAgent ? '#525252' : '#ffffff')};
+  color: ${({ $isAgent }) => ($isAgent ? '#525252' : '#ffffff')};
   border: 1px solid #525252;
   border-radius: 40px;
   padding: 6px 16px;

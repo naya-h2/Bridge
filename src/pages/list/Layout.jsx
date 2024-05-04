@@ -1,16 +1,16 @@
 import styled from 'styled-components';
 import Sidebar from '../../components/sidebar/Sidebar';
-import Filter from '../../components/list/ListFilter';
-import List from '../../components/list/List';
+import FilterSection from '../../components/list/FilterSection';
+import CardSection from '../../components/list/CardSection';
 
 function Layout() {
   return (
     <>
       <Sidebar index={2} />
       <ContainerWrapper>
-        <Filter />
+        <FilterSection />
         <Line />
-        <List />
+        <CardSection />
       </ContainerWrapper>
     </>
   );
