@@ -4,7 +4,6 @@ import CustomCalendar from '../../components/calendar/CustomCalendar';
 import FilterContent from '../../components/commons/FilterContent';
 import SearchButton from '../../components/commons/SearchButton';
 import { useStore } from '../../stores';
-import { useEffect } from 'react';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));

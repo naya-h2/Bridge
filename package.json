@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tanstack/react-query": "^5.34.2",
+    "@tanstack/react-query-devtools": "^5.34.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "moment": "^2.30.1",
     "path": "^0.12.7",
@@ -43,6 +46,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://15.164.213.31:8080/api",
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",

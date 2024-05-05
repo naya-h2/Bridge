@@ -43,6 +43,9 @@ const Button = styled.button`
   white-space: nowrap;
 
   cursor: pointer;
+  &:hover {
+    background-color: #ececec5e;
+  }
 `;
 const Switch = styled.img`
   width: 24px;

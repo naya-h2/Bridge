@@ -11,12 +11,17 @@ const FILTER_TYPE = [
 
 const FilterContent = () => {
   const url = window.location.pathname;
-  const { selectedList, setSelectedList } = useStore((state) => ({ selectedList: state.selectedFilter, setSelectedList: state.setSelectedFilter }));
+  const { selectedList, setSelectedList, isSearch, setIsSearch } = useStore((state) => ({
+    selectedList: state.selectedFilter,
+    setSelectedList: state.setSelectedFilter,
+    setIsSearch: state.setIsSearch,
+    isSearch: state.isSearch,
+  }));
 
   const handleSearchClick = () => {
-    console.log('검색!');
-
-    console.log(selectedList);
+    // console.log('검색!');
+    // console.log(selectedList);
+    setIsSearch(true);
   };
 
   useEffect(() => {
@@ -30,7 +35,7 @@ const FilterContent = () => {
           <FilterTitle>{item.type}</FilterTitle>
           <ListContainer>
             {item.filterList.map((filterName, idx) => (
-              <FilterButton key={idx} text={filterName} detailText={item.type === '주관기관' ? item.detail[idx] : null} />
+              <FilterButton key={filterName} text={filterName} detailText={item.type === '주관기관' ? item.detail[idx] : null} />
             ))}
           </ListContainer>
           {item.type === '주관기관' && url === '/list' && (

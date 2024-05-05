@@ -23,7 +23,7 @@ function BusinessCard({ business }) {
             }}
           />
           <Title>{business.title}</Title>
-          <Dday>D-{business.dDay}</Dday>
+          <Dday>D-{business.dday}</Dday>
         </TitleSection>
         <DetailSection>
           <Agent>{business.agent}</Agent>
