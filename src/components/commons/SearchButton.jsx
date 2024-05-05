@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import searchIcon from '../../assets/icon/search.svg';
 
-const SearchButton = () => {
+const SearchButton = ({ handleClick }) => {
   return (
-    <Button>
+    <Button onClick={handleClick}>
       <img src={searchIcon} />
     </Button>
   );

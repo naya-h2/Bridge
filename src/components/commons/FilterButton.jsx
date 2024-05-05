@@ -2,14 +2,16 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import switchG from '../../assets/icon/switch-grey.svg';
 import switchB from '../../assets/icon/switch-blue.svg';
+import { useStore } from '../../stores';
 
-const FilterButton = ({ text, setSelectedList, detailText }) => {
+const FilterButton = ({ text, detailText }) => {
   const [isSelected, setIsSelected] = useState(false);
+  const { selectedList, setSelectedList } = useStore((state) => ({ selectedList: state.selectedFilter, setSelectedList: state.setSelectedFilter }));
 
   const handleButtonClick = () => {
     setIsSelected((prev) => !prev);
-    if (isSelected) return setSelectedList((prev) => prev.filter((item) => item !== text));
-    setSelectedList((prev) => [...prev, text]);
+    if (isSelected) return setSelectedList(selectedList.filter((item) => item !== text));
+    setSelectedList([...selectedList, text]);
   };
 
   return (

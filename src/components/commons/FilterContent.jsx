@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import FilterButton from './FilterButton';
-import { useState } from 'react';
+import SearchButton from './SearchButton';
+import { useStore } from '../../stores';
+import { useEffect } from 'react';
 
 const FILTER_TYPE = [
   { type: '지원사업 유형', filterList: ['사업화', '행사∙네트워크', '시설∙공간∙보육', '멘토링∙컨설팅∙교육', '기술개발(R&D)', '융자', '인력', '글로벌 진출'] },
@@ -8,10 +10,18 @@ const FILTER_TYPE = [
 ];
 
 const FilterContent = () => {
-  const [selectedList, setSelectedList] = useState([]);
   const url = window.location.pathname;
+  const { selectedList, setSelectedList } = useStore((state) => ({ selectedList: state.selectedFilter, setSelectedList: state.setSelectedFilter }));
 
-  console.log(url);
+  const handleSearchClick = () => {
+    console.log('검색!');
+
+    console.log(selectedList);
+  };
+
+  useEffect(() => {
+    setSelectedList([]);
+  }, []);
 
   return (
     <FilterContainer $url={url}>
@@ -20,9 +30,14 @@ const FilterContent = () => {
           <FilterTitle>{item.type}</FilterTitle>
           <ListContainer>
             {item.filterList.map((filterName, idx) => (
-              <FilterButton key={idx} text={filterName} detailText={item.type === '주관기관' ? item.detail[idx] : null} setSelectedList={setSelectedList} />
+              <FilterButton key={idx} text={filterName} detailText={item.type === '주관기관' ? item.detail[idx] : null} />
             ))}
           </ListContainer>
+          {item.type === '주관기관' && url === '/list' && (
+            <SearchWrapper>
+              <SearchButton handleClick={handleSearchClick} />
+            </SearchWrapper>
+          )}
         </FilterBox>
       ))}
     </FilterContainer>
@@ -32,6 +47,7 @@ const FilterContent = () => {
 export default FilterContent;
 
 const FilterContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: ${({ $url }) => ($url === '/calendar' ? 'column' : 'row')};
   gap: ${({ $url }) => ($url === '/calendar' ? '32px' : '16px')};
@@ -53,4 +69,8 @@ const ListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+`;
+const SearchWrapper = styled.div`
+  display: flex;
+  justify-content: end;
 `;

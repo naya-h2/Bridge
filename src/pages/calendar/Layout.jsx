@@ -3,20 +3,29 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import CustomCalendar from '../../components/calendar/CustomCalendar';
 import FilterContent from '../../components/commons/FilterContent';
 import SearchButton from '../../components/commons/SearchButton';
+import { useStore } from '../../stores';
+import { useEffect } from 'react';
+
 function Layout() {
+  const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
+
+  const handleSearchClick = () => {
+    console.log('검색!');
+
+    console.log(selectedList);
+  };
+
   return (
     <>
       <Sidebar index={1} />
       <Container>
         <Title>캘린더</Title>
-        {/* <Chip hasActive={true}>3</Chip>
-        <Chip hasActive={false}>12</Chip> */}
         <CalendarWrapper>
           <CustomCalendar />
           <FilterBox>
             <FilterWrapper>
               필터
-              <SearchButton />
+              <SearchButton handleClick={handleSearchClick} />
             </FilterWrapper>
             <FilterContent />
           </FilterBox>
