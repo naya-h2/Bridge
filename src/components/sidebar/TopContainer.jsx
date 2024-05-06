@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import LogoImg from '../../assets/icon/logo-blue.svg';
 import styled from 'styled-components';
 function TopContainer() {
+  const navigate = useNavigate();
   return (
     <Container>
-      <Logo src={LogoImg} />
+      <Logo src={LogoImg} onClick={() => navigate('/')} />
       {/* <TextContainer>
         <MainText>팀브릿지</MainText>
         <SubText>바이오공학 분야 | 예비창업가</SubText>
