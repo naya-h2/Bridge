@@ -85,8 +85,6 @@ function CardSection() {
     setSort(type);
   };
 
-  console.log(cardList);
-
   return (
     <SectionLayout title="모집 중인 사업">
       {idxString === '' && (
