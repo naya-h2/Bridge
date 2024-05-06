@@ -9,49 +9,74 @@ import '../../components/calendar/myCalendarStyle.css';
 import moment from 'moment';
 import Chip from '../../components/commons/Chip';
 import BusinessList from '../../components/calendar/BusinessList';
-
-const DATA = [
-  {
-    id: 2,
-    title: '제목이 엄청 길어요 2024 2023 2022ㄴㅇㄹㄴㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹㄴㄹㄴㅇ',
-    types: ['인력', '사업화'],
-    deadline: '2024-08-10',
-    agent: 'agent',
-    link: '/',
-    star: false,
-    dday: 97,
-  },
-  {
-    id: 3,
-    title: 'title',
-    types: ['인력'],
-    deadline: '2024-08-15',
-    agent: 'agent',
-    link: '/',
-    star: false,
-    dday: 102,
-  },
-];
+import { useQuery } from '@tanstack/react-query';
+import { format, formatDate } from 'date-fns';
+import { makeIdxString } from '../../utils/makeIdxString';
+import arrowRight from '../../assets/icon/arrow-right.svg';
+import arrowLeft from '../../assets/icon/arrow-left.svg';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
 
-  const handleSearchClick = () => {
-    console.log('검색!');
-
-    console.log(selectedList);
-  };
-
   const today = new Date();
 
-  const [date, setDate] = useState(today);
-  const [dateArr, setDateArr] = useState(['2024-05-03', '2024-05-21', '2024-05-28']);
+  const [selectedDate, setSelectedDate] = useState(today);
+  const [dataCount, setDataCount] = useState({});
+  const [month, setMonth] = useState(format(today, 'yyyy-MM'));
+  const [idxString, setIdxString] = useState('');
+  const [dataList, setDataList] = useState([]);
 
   const handleDateChange = (newDate) => {
-    setDate(newDate);
+    setSelectedDate(newDate);
   };
 
-  console.log(date);
+  const { data, refetch } = useQuery({
+    queryKey: ['month-business', month, idxString],
+    queryFn: async () => {
+      const res = await (await fetch(`/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
+      setDataList([...res]);
+
+      let count = {};
+
+      res.map((data) => {
+        if (count[data.deadline] === undefined) {
+          count[data.deadline] = 1;
+        } else {
+          count[data.deadline]++;
+        }
+      });
+
+      setDataCount({ ...count });
+      return res;
+    },
+  });
+
+  const handleSearchClick = () => {
+    setIdxString(makeIdxString(selectedList));
+    refetch();
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [month]);
+
+  useEffect(() => {
+    setDataList(data?.filter((item) => item.deadline === format(selectedDate, 'yyyy-MM-dd')));
+  }, [selectedDate]);
+
+  const handleNextMonthClick = () => {
+    const [yyyy, mm] = month.split('-');
+    if (mm === '12') return setMonth(Number(yyyy) + 1 + '-' + '01');
+    const newMonth = Number(mm) + 1;
+    setMonth(format(yyyy + '-' + newMonth, 'yyyy-MM'));
+  };
+
+  const handlePrevMonthClick = () => {
+    const [yyyy, mm] = month.split('-');
+    if (mm === '01') return setMonth(Number(yyyy) - 1 + '-' + '12');
+    const newMonth = Number(mm) - 1;
+    setMonth(format(yyyy + '-' + newMonth, 'yyyy-MM'));
+  };
 
   return (
     <>
@@ -61,8 +86,11 @@ function Layout() {
         <CalendarContainer>
           <CalendarWrapper>
             <Calendar
-              value={date}
+              value={selectedDate}
               onChange={handleDateChange}
+              onClickMonth={(date) => setMonth(format(date, 'yyyy-MM'))}
+              prevLabel={<ArrowButton src={arrowLeft} onClick={handlePrevMonthClick} />}
+              nextLabel={<ArrowButton src={arrowRight} onClick={handleNextMonthClick} />}
               formatDay={(locale, date) => moment(date).format('D')} // 일 제거 숫자만 보이게
               formatYear={(locale, date) => moment(date).format('YYYY')} // 네비게이션 눌렀을때 숫자 년도만 보이게
               formatMonthYear={(locale, date) => moment(date).format('MM월')}
@@ -72,19 +100,22 @@ function Layout() {
               prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
               minDetail="year" // 10년단위 년도 숨기기
               tileContent={({ date, view }) => {
-                if (dateArr.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+                const curDate = format(date, 'yyyy-MM-dd');
+                if (dataCount[curDate] !== undefined) {
                   return (
                     <>
-                      <Chip hasActive={false}>3</Chip>
+                      <Chip hasActive={curDate === format(selectedDate, 'yyyy-MM-dd')}>{dataCount[curDate]}</Chip>
                     </>
                   );
                 }
               }}
             />
             <CardContainer>
-              {DATA.map((data) => (
-                <BusinessList key={data.id} data={data} />
-              ))}
+              {dataList && dataList.length > 0 ? (
+                dataList.map((business) => <BusinessList key={business.id} data={business} />)
+              ) : (
+                <NoDataMsg>데이터가 없습니다.</NoDataMsg>
+              )}
             </CardContainer>
           </CalendarWrapper>
           <FilterBox>
@@ -160,7 +191,18 @@ const CardContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 16px;
+`;
+
+const ArrowButton = styled.img`
+  width: 32px;
+  height: 32px;
+
+  object-position: center;
+  object-fit: cover;
+`;
+
+const NoDataMsg = styled.div`
+  display: flex;
+  justify-content: center;
 `;

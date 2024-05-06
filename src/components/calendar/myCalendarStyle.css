@@ -53,6 +53,10 @@
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .react-calendar__navigation button:disabled {

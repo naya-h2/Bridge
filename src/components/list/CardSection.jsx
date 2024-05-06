@@ -6,7 +6,7 @@ import bottomArrow from '../../assets/icon/arrow_bottom.svg';
 import { useEffect, useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useStore } from '../../stores';
-import { FilterIndex } from '../../constants/filterType';
+import { makeIdxString } from '../../utils/makeIdxString';
 
 const SORT_TYPE_URL = {
   '마감 임박순': '/byDeadline',
@@ -28,16 +28,6 @@ function CardSection() {
     isSearchClick: state.isSearch,
     setIsSearchClick: state.setIsSearch,
   }));
-
-  const makeIdxString = () => {
-    let filterQueryString = '';
-    const idxArr = selectedList.map((type) => FilterIndex.findIndex((item) => item === type));
-
-    for (let idx of idxArr) {
-      filterQueryString += `idx=${idx}&`;
-    }
-    setIdxString(filterQueryString);
-  };
 
   const { data, isLoading, isSuccess, fetchNextPage, refetch } = useInfiniteQuery({
     queryKey: ['business'],
@@ -71,7 +61,7 @@ function CardSection() {
 
   useEffect(() => {
     setIdxString('');
-    makeIdxString();
+    setIdxString(makeIdxString(selectedList));
     setIsSearchClick(false);
   }, [isSearchClick]);
 
