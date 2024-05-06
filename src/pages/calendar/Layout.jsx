@@ -33,7 +33,7 @@ function Layout() {
   const { data, refetch } = useQuery({
     queryKey: ['month-business', month, idxString],
     queryFn: async () => {
-      const res = await (await fetch(`/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
+      const res = await (await fetch(`/api/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
       setDataList([...res]);
 
       let count = {};

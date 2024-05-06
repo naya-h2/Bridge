@@ -33,7 +33,7 @@ function CardSection() {
     queryKey: ['business'],
     queryFn: async ({ pageParam }) => {
       const res = await (
-        await fetch(idxString !== '' ? `/business/byFilter?page=${pageParam}&${idxString}` : `/business${SORT_TYPE_URL[sort]}?page=${pageParam}`)
+        await fetch(idxString !== '' ? `/api/business/byFilter?page=${pageParam}&${idxString}` : `/api/business${SORT_TYPE_URL[sort]}?page=${pageParam}`)
       ).json();
       pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
       // const res = await fetch('/business', {
