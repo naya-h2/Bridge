@@ -5,12 +5,14 @@ import icon from '../../assets/icon/list-link.svg';
 import whiteStar from '../../assets/icon/empty-star.svg';
 import YellowStar from '../../assets/icon/filled-star.svg';
 import { format } from 'date-fns';
-
-const AGENT_TYPE = ['공공기관', '민간기관'];
+import { useStore } from '../../stores';
 
 function BusinessCard({ business }) {
   const navigate = useNavigate();
   // const [star, setStar] = useState(business.importance);
+  const { selectedList } = useStore((state) => ({
+    selectedList: state.selectedFilter,
+  }));
 
   return (
     <Container>
@@ -38,7 +40,7 @@ function BusinessCard({ business }) {
       </TopContainer>
       <BottomContainer>
         {business.types.map((type) => (
-          <TypeTag key={type} $isAgent={AGENT_TYPE.includes(type)}>
+          <TypeTag key={type} $isSelected={selectedList.includes(type)}>
             {type}
           </TypeTag>
         ))}
@@ -149,8 +151,8 @@ const TypeTag = styled.p`
   display: flex;
   align-items: center;
 
-  background: ${({ $isAgent }) => (!$isAgent ? '#525252' : '#ffffff')};
-  color: ${({ $isAgent }) => ($isAgent ? '#525252' : '#ffffff')};
+  background: ${({ $isSelected }) => ($isSelected ? '#525252' : '#ffffff')};
+  color: ${({ $isSelected }) => (!$isSelected ? '#525252' : '#ffffff')};
   border: 1px solid #525252;
   border-radius: 40px;
   padding: 6px 16px;

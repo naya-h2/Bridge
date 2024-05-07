@@ -6,16 +6,14 @@ import { useEffect } from 'react';
 
 const FILTER_TYPE = [
   { type: '지원사업 유형', filterList: ['사업화', '행사∙네트워크', '시설∙공간∙보육', '멘토링∙컨설팅∙교육', '기술개발(R&D)', '융자', '인력', '글로벌 진출'] },
-  { type: '주관기관', filterList: ['공공', '민간'], detail: ['중앙부처∙지자체∙공공기관', '민간기관∙교육기관'] },
+  { type: '주관기관', filterList: ['공공기관', '민간기관'], detail: ['중앙부처∙지자체', '교육기관'] },
 ];
 
 const FilterContent = () => {
   const url = window.location.pathname;
-  const { selectedList, setSelectedList, isSearch, setIsSearch } = useStore((state) => ({
-    selectedList: state.selectedFilter,
+  const { setSelectedList, setIsSearch } = useStore((state) => ({
     setSelectedList: state.setSelectedFilter,
     setIsSearch: state.setIsSearch,
-    isSearch: state.isSearch,
   }));
 
   const handleSearchClick = () => {
