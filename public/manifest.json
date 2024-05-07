@@ -3,9 +3,14 @@
   "name": "정부지원사업 • 정책자금 알리미 서비스",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.svg",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/svg"
+    },
+    {
+      "src": "logo-white.png",
+      "sizes": "400x300",
+      "type": "image/png"
     }
   ],
   "start_url": "./index.html",
