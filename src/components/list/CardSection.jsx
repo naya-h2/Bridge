@@ -18,6 +18,8 @@ const SORT_TYPE = ['마감 임박순', '최신 등록순'];
 const SIZE = 10;
 
 function CardSection() {
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
+
   const [sort, setSort] = useState('마감 임박순');
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [cardList, setCardList] = useState([]);
@@ -33,7 +35,9 @@ function CardSection() {
     queryKey: ['business'],
     queryFn: async ({ pageParam }) => {
       const res = await (
-        await fetch(idxString !== '' ? `/business/byFilter?page=${pageParam}&${idxString}` : `/business${SORT_TYPE_URL[sort]}?page=${pageParam}`)
+        await fetch(
+          idxString !== '' ? `${PROXY}/business/byFilter?page=${pageParam}&${idxString}` : `${PROXY}/business${SORT_TYPE_URL[sort]}?page=${pageParam}`
+        )
       ).json();
       pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
       // const res = await fetch('/business', {
