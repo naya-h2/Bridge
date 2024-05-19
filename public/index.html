@@ -1,12 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-54WKXLR9TF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-54WKXLR9TF');
+    </script>
+
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Web site created using create-react-app" />
-    <link rel="apple-touch-icon" href="/src/assets/icon/logo-blue.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bridge" />
+    <meta property="og:description" content="성공적인 스타트업 운영을 위한 정부지원사업 • 정책자금 알리미 서비스 - Bridge" />
+    <meta property="og:image" content="%PUBLIC_URL%/logo-white.png" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+
+    <meta name="twitter:description" content="성공적인 스타트업 운영을 위한 정부지원사업 • 정책자금 알리미 서비스 - Bridge" />
+    <meta name="twitter:image" content="%PUBLIC_URL%/logo-white.png" />
+
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Bridge</title>
   </head>

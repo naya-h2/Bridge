@@ -10,14 +10,14 @@ import moment from 'moment';
 import Chip from '../../components/commons/Chip';
 import BusinessList from '../../components/calendar/BusinessList';
 import { useQuery } from '@tanstack/react-query';
-import { format, formatDate } from 'date-fns';
+import { format } from 'date-fns';
 import { makeIdxString } from '../../utils/makeIdxString';
 import arrowRight from '../../assets/icon/arrow-right.svg';
 import arrowLeft from '../../assets/icon/arrow-left.svg';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
-
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
   const today = new Date();
 
   const [selectedDate, setSelectedDate] = useState(today);
@@ -33,7 +33,7 @@ function Layout() {
   const { data, refetch } = useQuery({
     queryKey: ['month-business', month, idxString],
     queryFn: async () => {
-      const res = await (await fetch(`/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
+      const res = await (await fetch(`${PROXY}/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
       setDataList([...res]);
 
       let count = {};
