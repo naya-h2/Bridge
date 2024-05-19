@@ -49,7 +49,8 @@ export default Head;
 
 const Container = styled.div`
   height: 848px;
-  width: 1440px;
+  min-width: 1024px;
+  max-width: 1440px;
   margin: 0 auto;
   background-color: #3686ff;
 `;

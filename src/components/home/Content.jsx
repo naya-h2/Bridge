@@ -42,7 +42,8 @@ function Content({ type }) {
 export default Content;
 
 const Container = styled.div`
-  width: 1440px;
+  min-width: 1024px;
+  max-width: 1440px;
   padding: 120px 136px;
   margin: 0 auto;
 `;
