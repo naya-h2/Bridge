@@ -80,7 +80,7 @@ function Layout() {
 
   return (
     <>
-      <Sidebar index={1} />
+      <Sidebar index={0} />
       <Container>
         <Title>캘린더</Title>
         <CalendarContainer>
