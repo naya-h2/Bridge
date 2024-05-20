@@ -4,7 +4,7 @@ import checkIcon from '../../assets/icon/check-active.svg';
 import { useEffect, useState } from 'react';
 import CheckBox from './CheckBox';
 
-function Agreement() {
+function Agreement({ handleNextStep }) {
   const [isAllCheck, setIsAllCheck] = useState(false);
   const [isCheck, setIsCheck] = useState({
     personal: false,
@@ -42,8 +42,7 @@ function Agreement() {
   }, [isCheck]);
 
   return (
-    <Container>
-      AI 사업계획서 작성하기
+    <div>
       <TitleWrapper>
         약관동의
         <AgreeBtn onClick={() => handleCheckClick('all')}>
@@ -87,25 +86,16 @@ function Agreement() {
       >
         AI 초안 생성 서비스 Docshunt가 제공하는 할인, 프로모션 등의 이벤트 정보를 받아 보시겠습니까?
       </CheckBox>
-      <NextButton $disabled={!(isCheck.etc && isCheck.personal)} disabled={!(isCheck.etc && isCheck.personal)}>
+      <NextButton onClick={handleNextStep} $disabled={!(isCheck.etc && isCheck.personal)} disabled={!(isCheck.etc && isCheck.personal)}>
         다음
       </NextButton>
-    </Container>
+    </div>
   );
 }
 
 export default Agreement;
 
-const Container = styled.div`
-  position: relative;
-
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.48px;
-`;
-
 const TitleWrapper = styled.div`
-  margin-top: 120px;
   padding-bottom: 40px;
 
   display: flex;

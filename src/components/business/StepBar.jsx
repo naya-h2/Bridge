@@ -2,18 +2,19 @@ import styled, { css } from 'styled-components';
 import checkIcon from '../../assets/icon/check-inactive.svg';
 import barIcon from '../../assets/icon/bar.svg';
 import { STEP } from '../../constants/funnelStep';
+import { Fragment } from 'react';
 
 function StepBar({ curStep }) {
   return (
     <Container>
       {STEP.map((step, idx) => (
-        <>
-          <StepWrapper key={step.name} $isCurStep={curStep === idx}>
+        <Fragment key={step.name}>
+          <StepWrapper $isCurStep={curStep === idx}>
             <Icon src={curStep > idx ? checkIcon : step[curStep === idx]} />
             {step.name}
           </StepWrapper>
           {idx !== 4 && <BarIcon src={barIcon} />}
-        </>
+        </Fragment>
       ))}
     </Container>
   );

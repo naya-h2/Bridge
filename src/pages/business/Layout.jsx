@@ -3,6 +3,7 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import StepBar from '../../components/business/StepBar';
 import { useFunnel } from '../../hooks/useFunnel';
 import Agreement from '../../components/business/Agreement';
+import TitleLayout from '../../components/business/TitleLayout';
 
 const STEP_NAME = ['약관동의', '필수항목 작성', '선택항목 작성', '기본정보 입력', '결제'];
 
@@ -19,8 +20,12 @@ function Layout() {
       <Container>
         <Funnel>
           <Step name={STEP_NAME[0]}>
-            <Agreement />
-            {/* <StepBar curStep={0} /> */}
+            <TitleLayout>
+              <StepWrapper>
+                <Agreement handleNextStep={handleNextClick} />
+                <StepBar curStep={0} />
+              </StepWrapper>
+            </TitleLayout>
           </Step>
           <Step name={STEP_NAME[1]}>
             <StepBar curStep={1} />
@@ -48,4 +53,11 @@ const Container = styled.div`
 
   margin-left: 296px;
   padding: 96px 80px;
+`;
+
+const StepWrapper = styled.div`
+  margin-top: 120px;
+
+  display: flex;
+  gap: 120px;
 `;
