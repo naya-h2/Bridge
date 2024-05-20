@@ -1,6 +1,5 @@
 import TopContainer from './TopContainer';
 import MiddleContainer from './MiddleContainer';
-import BottomContainer from './BottomContainer';
 import styled from 'styled-components';
 
 function Sidebar({ index }) {
