@@ -1,10 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import InputBox from './InputBox';
+import BtnLayout from './BtnLayout';
+import { useFormContext } from 'react-hook-form';
 
-function RequiredPost() {
+function RequiredPost({ handleNextStep }) {
+  const { watch } = useFormContext();
+  const { input2 } = watch();
+  const isDisabled = !(input2?.length >= 140 && input2?.length <= 50000);
   return (
-    <div>
+    <BtnLayout onBtnClick={handleNextStep} btnText="다음" disabled={isDisabled}>
       <HeadContainer>
         PART1
         <Description>
@@ -13,8 +18,8 @@ function RequiredPost() {
         </Description>
       </HeadContainer>
       <InputBox stepNum={0} height={76} />
-      <InputBox stepNum={1} height={238} />
-    </div>
+      <InputBox stepNum={1} height={256} />
+    </BtnLayout>
   );
 }
 

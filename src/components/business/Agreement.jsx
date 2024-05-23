@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import notCheckIcon from '../../assets/icon/check-circle.svg';
 import checkIcon from '../../assets/icon/check-active.svg';
 import { useEffect, useState } from 'react';
 import CheckBox from './CheckBox';
-import { funnelNextBtn } from '../../styles/button';
+import BtnLayout from './BtnLayout';
 
 function Agreement({ handleNextStep }) {
   const [isAllCheck, setIsAllCheck] = useState(false);
@@ -43,7 +43,7 @@ function Agreement({ handleNextStep }) {
   }, [isCheck]);
 
   return (
-    <Container>
+    <BtnLayout btnText="다음" onBtnClick={handleNextStep} disabled={!(isCheck.etc && isCheck.personal)}>
       <TitleWrapper>
         약관동의
         <AgreeBtn onClick={() => handleCheckClick('all')}>
@@ -87,20 +87,11 @@ function Agreement({ handleNextStep }) {
       >
         AI 초안 생성 서비스 Docshunt가 제공하는 할인, 프로모션 등의 이벤트 정보를 받아 보시겠습니까?
       </CheckBox>
-      <ButtonWrapper>
-        <NextButton onClick={handleNextStep} $disabled={!(isCheck.etc && isCheck.personal)} disabled={!(isCheck.etc && isCheck.personal)}>
-          다음
-        </NextButton>
-      </ButtonWrapper>
-    </Container>
+    </BtnLayout>
   );
 }
 
 export default Agreement;
-
-const Container = styled.div`
-  position: relative;
-`;
 
 const TitleWrapper = styled.div`
   padding-bottom: 40px;
@@ -125,15 +116,4 @@ const AgreeBtn = styled.button`
   font-weight: 400;
   line-height: 160%; /* 28.8px */
   letter-spacing: -0.36px;
-`;
-
-const NextButton = styled.button`
-  ${funnelNextBtn};
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-
-  margin-top: 80px;
 `;

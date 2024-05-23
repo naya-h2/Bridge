@@ -5,9 +5,9 @@ import checkIcon from '../../assets/icon/check-active.svg';
 import { useFormContext } from 'react-hook-form';
 
 const POST_STEP = [
-  { name: 'one', title: '01. 아이템 한 줄 소개', isRequired: true, placeholder: '예시) 차량 공유 서비스 플랫폼 Uber', length: -1 },
+  { name: 'input1', title: '01. 아이템 한 줄 소개', isRequired: true, placeholder: '예시) 차량 공유 서비스 플랫폼 Uber', length: -1 },
   {
-    name: 'two',
+    name: 'input2',
     title: '02. 아이템 설명',
     isRequired: true,
     placeholder:
@@ -18,9 +18,8 @@ const POST_STEP = [
 
 function InputBox({ stepNum, height }) {
   const { register, watch } = useFormContext();
-  const s = watch();
-
-  console.log(s);
+  const value = watch();
+  const isMaxError = value[POST_STEP[stepNum].name]?.length > 50000;
 
   return (
     <Container>
@@ -28,10 +27,11 @@ function InputBox({ stepNum, height }) {
         {POST_STEP[stepNum].title}
         <OptionalChip isRequired={POST_STEP[stepNum].isRequired} />
       </TitleWrapper>
-      <Input $height={height} placeholder={POST_STEP[stepNum].placeholder} {...register(POST_STEP[stepNum].name)} />
+      <Input $isError={isMaxError} $height={height} placeholder={POST_STEP[stepNum].placeholder} {...register(POST_STEP[stepNum].name)} />
+      {isMaxError && <ErrorMsg>글자수는 5만자 이하로 부탁드립니다.</ErrorMsg>}
       {POST_STEP[stepNum].length !== -1 && (
         <LengthWrapper>
-          <CheckIcon src={noCheckIcon} />
+          <CheckIcon src={value[POST_STEP[stepNum].name]?.length >= POST_STEP[stepNum]?.length ? checkIcon : noCheckIcon} />
           {`${POST_STEP[stepNum].length}자`}
         </LengthWrapper>
       )}
@@ -69,7 +69,8 @@ const Input = styled.textarea`
   letter-spacing: -0.32px;
 
   border-radius: 8px;
-  border: 1px solid #b8b9ba;
+  border: ${({ $isError }) => ($isError ? `1px solid red` : `1px solid #b8b9ba`)};
+  outline: none;
 
   resize: vertical;
 
@@ -93,4 +94,9 @@ const LengthWrapper = styled.div`
   font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.32px;
+`;
+
+const ErrorMsg = styled.p`
+  color: red;
+  font-size: 16px;
 `;
