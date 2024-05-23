@@ -19,6 +19,7 @@ export default BtnLayout;
 
 const Container = styled.div`
   position: relative;
+  width: 70%;
 `;
 
 const NextButton = styled.button`
