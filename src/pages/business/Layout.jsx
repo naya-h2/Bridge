@@ -8,13 +8,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 const STEP_NAME = ['약관동의', '필수항목 작성', '선택항목 작성', '기본정보 입력', '결제'];
-const INITIAL_INPUT = {
-  input1: '',
-  input2: '',
-  input3: '',
-  input4: '',
-  input5: '',
-};
 
 function Layout() {
   const [step, setStep] = useState(STEP_NAME[0]);
