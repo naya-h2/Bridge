@@ -7,6 +7,7 @@ import RequiredPost from '../../components/business/RequiredPost';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import OptionalPost from '../../components/business/OptionalPost';
+import PersonalPost from '../../components/business/PersonalPost';
 
 const STEP_NAME = ['약관동의', '필수항목 작성', '선택항목 작성', '기본정보 입력', '결제'];
 
@@ -23,7 +24,7 @@ function Layout() {
     약관동의: <Agreement handleNextStep={handleNextClick} />,
     '필수항목 작성': <RequiredPost handleNextStep={handleNextClick} />,
     '선택항목 작성': <OptionalPost handleNextStep={handleNextClick} />,
-    '기본정보 입력': <></>,
+    '기본정보 입력': <PersonalPost handleNextStep={handleNextClick} />,
     결제: <></>,
   };
 

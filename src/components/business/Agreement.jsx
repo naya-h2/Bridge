@@ -46,7 +46,7 @@ function Agreement({ handleNextStep }) {
     <BtnLayout btnText="다음" onBtnClick={handleNextStep} disabled={!(isCheck.etc && isCheck.personal)}>
       <TitleWrapper>
         약관동의
-        <AgreeBtn onClick={() => handleCheckClick('all')}>
+        <AgreeBtn onClick={() => handleCheckClick('all')} type="button">
           <CheckIcon src={isAllCheck ? checkIcon : notCheckIcon} />
           모두 동의합니다.
         </AgreeBtn>

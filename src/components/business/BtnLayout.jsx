@@ -7,7 +7,7 @@ function BtnLayout({ children, btnText, disabled, onBtnClick }) {
     <Container>
       {children}
       <ButtonWrapper>
-        <NextButton onClick={onBtnClick} $disabled={disabled} disabled={disabled}>
+        <NextButton onClick={onBtnClick} $disabled={disabled} disabled={disabled} type="button">
           {btnText}
         </NextButton>
       </ButtonWrapper>
