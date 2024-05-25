@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import checkIcon from '../../assets/icon/check-inactive.svg';
 import barIcon from '../../assets/icon/bar.svg';
-import { STEP } from '../../constants/funnelStep';
+import { STEP } from '../../constants/funnel';
 import { Fragment } from 'react';
 
 function StepBar({ curStep }) {

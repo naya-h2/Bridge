@@ -8,6 +8,8 @@ import inactive3 from '../assets/icon/step-inactive-3.svg';
 import inactive4 from '../assets/icon/step-inactive-4.svg';
 import inactive5 from '../assets/icon/step-inactive-5.svg';
 
+export const MAX_LENGTH = 50000;
+
 export const STEP = [
   {
     name: '약관동의',

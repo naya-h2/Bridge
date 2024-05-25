@@ -4,11 +4,12 @@ import InputBox from './InputBox';
 import BtnLayout from './BtnLayout';
 import { useFormContext } from 'react-hook-form';
 import HeadSection from './HeadSection';
+import { MAX_LENGTH } from '../../constants/funnel';
 
 function RequiredPost({ handleNextStep }) {
   const { watch } = useFormContext();
-  const { input2 } = watch();
-  const isDisabled = !(input2?.length >= 140 && input2?.length <= 50000);
+  const { input1, input2 } = watch();
+  const isDisabled = !(input2?.length >= 200 && input2?.length <= MAX_LENGTH && input1?.length > 0);
 
   return (
     <BtnLayout onBtnClick={handleNextStep} btnText="다음" disabled={isDisabled}>
