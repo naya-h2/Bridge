@@ -32,7 +32,7 @@ function Layout() {
     <FormProvider {...methods}>
       <Sidebar index={1} />
       <Container>
-        <TitleLayout>
+        <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
           <StepWrapper>
             {STEP_COMPONENT[step]}
             <StepBar curStep={STEP_NAME.indexOf(step)} />

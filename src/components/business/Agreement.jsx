@@ -4,8 +4,10 @@ import checkIcon from '../../assets/icon/check-active.svg';
 import { useEffect, useState } from 'react';
 import CheckBox from './CheckBox';
 import BtnLayout from './BtnLayout';
+import { useFormContext } from 'react-hook-form';
 
 function Agreement({ handleNextStep }) {
+  const { register, setValue } = useFormContext();
   const [isAllCheck, setIsAllCheck] = useState(false);
   const [isCheck, setIsCheck] = useState({
     personal: false,
@@ -43,7 +45,16 @@ function Agreement({ handleNextStep }) {
   }, [isCheck]);
 
   return (
-    <BtnLayout btnText="다음" onBtnClick={handleNextStep} disabled={!(isCheck.etc && isCheck.personal)}>
+    <BtnLayout
+      btnText="다음"
+      onBtnClick={() => {
+        setValue('term1', isCheck.personal);
+        setValue('term2', isCheck.etc);
+        setValue('term3', isCheck.marketing);
+        handleNextStep();
+      }}
+      disabled={!(isCheck.etc && isCheck.personal)}
+    >
       <TitleWrapper>
         약관동의
         <AgreeBtn onClick={() => handleCheckClick('all')} type="button">
@@ -87,6 +98,9 @@ function Agreement({ handleNextStep }) {
       >
         AI 초안 생성 서비스 Docshunt가 제공하는 할인, 프로모션 등의 이벤트 정보를 받아 보시겠습니까?
       </CheckBox>
+      <input hidden {...register('term1')} />
+      <input hidden {...register('term2')} />
+      <input hidden {...register('term3')} />
     </BtnLayout>
   );
 }

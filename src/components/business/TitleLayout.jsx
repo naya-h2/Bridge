@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function TitleLayout({ type = '작성', children }) {
   return (
     <Container>
-      AI 사업계획서 작성하기
+      {`AI 사업계획서 ${type}하기`}
       {children}
     </Container>
   );
