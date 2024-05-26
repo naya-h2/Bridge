@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import InputBox from './InputBox';
 import BtnLayout from './BtnLayout';
@@ -10,6 +10,12 @@ function RequiredPost({ handleNextStep }) {
   const { watch } = useFormContext();
   const { input1, input2 } = watch();
   const isDisabled = !(input2?.length >= 200 && input2?.length <= MAX_LENGTH && input1?.length > 0);
+
+  useEffect(() => {
+    if (window.localStorage.getItem('ai')) {
+      console.log('저장된 내용이 있습니다. 불러올까요?');
+    }
+  }, []);
 
   return (
     <BtnLayout onBtnClick={handleNextStep} btnText="다음" disabled={isDisabled}>

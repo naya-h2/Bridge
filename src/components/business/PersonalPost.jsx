@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import BtnLayout from './BtnLayout';
 import HeadSection from './HeadSection';
 import InputLine from './InputLine';
-import { useFormContext } from 'react-hook-form';
+import { get, useFormContext } from 'react-hook-form';
 
 const INPUT_FRAME = [
   {
@@ -32,12 +32,34 @@ const INPUT_FRAME = [
 ];
 
 function PersonalPost({ handleNextStep }) {
-  const { register, watch } = useFormContext();
+  const { register, watch, getValues } = useFormContext();
   const { name, email, birth, phoneNumber } = watch();
   const isDisabled = !(name && email && birth && phoneNumber);
 
+  const handleNextClick = () => {
+    const { input1, input2, input3, input4, input5, work } = getValues();
+    window.localStorage.setItem(
+      'ai',
+      JSON.stringify({
+        input1,
+        input2,
+        input3,
+        input4,
+        input5,
+        name,
+        email,
+        birth,
+        phoneNumber,
+        work,
+      })
+    );
+
+    console.log(window.localStorage.getItem('ai'));
+    handleNextStep();
+  };
+
   return (
-    <BtnLayout btnText="작성완료" onBtnClick={handleNextStep} disabled={isDisabled}>
+    <BtnLayout btnText="작성완료" onBtnClick={handleNextClick} disabled={isDisabled}>
       <HeadSection title="PART 3">
         본인 정보를 입력해주세요. 특히 이메일을 반드시 정확하게 적어주세요. 이메일을 통해 사업계획서 결과물이 전달됩니다.
       </HeadSection>
