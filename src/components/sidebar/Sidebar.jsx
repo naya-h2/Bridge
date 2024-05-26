@@ -1,16 +1,12 @@
 import TopContainer from './TopContainer';
 import MiddleContainer from './MiddleContainer';
-import BottomContainer from './BottomContainer';
 import styled from 'styled-components';
 
 function Sidebar({ index }) {
   return (
     <Container>
-      <Wrapper>
-        <TopContainer />
-        <MiddleContainer index={index} />
-      </Wrapper>
-      <BottomContainer />
+      <TopContainer />
+      <MiddleContainer index={index} />
     </Container>
   );
 }
@@ -25,14 +21,8 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   position: fixed;
   left: 0;
   z-index: 10;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
