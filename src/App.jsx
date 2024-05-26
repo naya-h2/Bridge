@@ -4,6 +4,7 @@ import HomePage from './pages/home/HomePage';
 import { Route, Routes } from 'react-router-dom';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import BusinessPage from './pages/business/BusinessPage.jsx';
+import AdminPage from './pages/admin/AdminPage.jsx';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/list" element={<ListPage />} />
       <Route path="/calendar" element={<CalendarPage />} />
       <Route path="/business" element={<BusinessPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
