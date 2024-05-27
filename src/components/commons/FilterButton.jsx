@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import switchG from '../../assets/icon/switch-grey.svg';
 import switchB from '../../assets/icon/switch-blue.svg';
@@ -13,6 +13,10 @@ const FilterButton = ({ text, detailText }) => {
     if (isSelected) return setSelectedList(selectedList.filter((item) => item !== text));
     setSelectedList([...selectedList, text]);
   };
+
+  useEffect(() => {
+    setIsSelected(selectedList.includes(text));
+  }, [selectedList]);
 
   return (
     <Button onClick={handleButtonClick} $selected={isSelected}>

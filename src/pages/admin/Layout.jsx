@@ -1,43 +1,52 @@
 import styled from 'styled-components';
 import LoginForm from '../../components/admin/LoginForm';
 import { useStore } from '../../stores';
-import { useState } from 'react';
 import BusinessPost from '../../components/admin/BusinessPost';
 import arrowBack from '../../assets/icon/arrow-back.svg';
+import BusinessEditList from '../../components/admin/BusinessEditList';
+import { useEffect } from 'react';
 
 const TITLE = {
   main: '',
   post: '사업 등록',
-  edit: '사업 수정',
+  edit_list: '사업 수정',
   ai_list: 'AI 사업계획서 내역',
 };
 
 function Layout() {
-  const { isLogin } = useStore((state) => ({ isLogin: state.isLogin }));
-  const [page, setPage] = useState('main');
+  const { isLogin, setIsLogin } = useStore((state) => ({
+    isLogin: state.isLogin,
+    setIsLogin: state.setIsLogin,
+  }));
 
   const AdminMain = () => {
     return (
       <>
         <Title>사업 등록 및 수정</Title>
         <BtnWrapper>
-          <Button onClick={() => setPage('post')}>등록</Button>
-          <Button onClick={() => setPage('edit')}>수정</Button>
+          <Button onClick={() => setIsLogin('post')}>등록</Button>
+          <Button onClick={() => setIsLogin('edit_list')}>수정</Button>
         </BtnWrapper>
         <Title>AI 사업계획서 내역</Title>
-        <Button onClick={() => setPage('ai_list')}>바로가기</Button>
+        <Button onClick={() => setIsLogin('ai_list')}>바로가기</Button>
       </>
     );
   };
 
+  const PAGE_COMPONENT = {
+    main: <AdminMain />,
+    post: <BusinessPost />,
+    edit_list: <BusinessEditList />,
+    edit_post: <BusinessPost type="edit" />,
+  };
+
   return (
     <>
-      {!isLogin ? (
+      {isLogin !== '' ? (
         <Container>
-          {page !== 'main' && <BackIcon src={arrowBack} onClick={() => setPage('main')} />}
-          <PageTitle>{TITLE[page]}</PageTitle>
-          {page === 'main' && <AdminMain />}
-          {page === 'post' && <BusinessPost />}
+          {isLogin !== 'main' && <BackIcon src={arrowBack} onClick={() => (isLogin === 'edit_post' ? setIsLogin('edit_list') : setIsLogin('main'))} />}
+          <PageTitle>{TITLE[isLogin]}</PageTitle>
+          {PAGE_COMPONENT[isLogin]}
         </Container>
       ) : (
         <LoginForm />

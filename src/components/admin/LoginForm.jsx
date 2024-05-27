@@ -9,7 +9,7 @@ function LoginForm() {
   const handleLoginClick = () => {
     const { admin_email, admin_pw } = getValues();
     if (process.env.REACT_APP_ADMIN_EMAIL === admin_email && process.env.REACT_APP_ADMIN_PW === admin_pw) {
-      setIsLogin(true);
+      setIsLogin('main');
     } else alert('⚠️ 관리자만 접근 가능한 페이지입니다.');
   };
 

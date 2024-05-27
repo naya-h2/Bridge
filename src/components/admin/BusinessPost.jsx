@@ -32,14 +32,13 @@ const INPUT_VALUE = [
   },
 ];
 
-function BusinessPost() {
-  const { register, getValues } = useForm();
-  const { selectedList } = useStore((state) => ({
+function BusinessPost({ type = 'post' }) {
+  const { register, getValues, setValue } = useForm();
+  const { selectedList, setSelectedList } = useStore((state) => ({
     selectedList: state.selectedFilter,
+    setSelectedList: state.setSelectedFilter,
   }));
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(selectedList);
 
   const postBusiness = async () => {
     const { title, deadline, agent, link } = getValues();
@@ -61,9 +60,29 @@ function BusinessPost() {
     setIsLoading(false);
   };
 
+  const editBusiness = () => {
+    window.sessionStorage.clear();
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    if (isLoading) postBusiness();
+    if (isLoading) type === 'post' ? postBusiness() : editBusiness();
   }, [isLoading]);
+
+  useEffect(() => {
+    if (type === 'post') {
+      window.sessionStorage.clear();
+      setSelectedList([]);
+    }
+    if (type === 'edit') {
+      const defaultValue = JSON.parse(window.sessionStorage.getItem('admin_edit'));
+      setValue('title', defaultValue.title);
+      setValue('agent', defaultValue.agent);
+      setValue('deadline', defaultValue.deadline);
+      setValue('link', defaultValue.link);
+      setSelectedList([...defaultValue.types]);
+    }
+  }, []);
 
   return (
     <Container>
