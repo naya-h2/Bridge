@@ -14,13 +14,18 @@ function BusinessEditList() {
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: ['business'],
     queryFn: async ({ pageParam }) => {
-      const res = await (await fetch(`${PROXY}/business/byFilterAndSortingNew?page=${pageParam}`)).json();
-      pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
-      return { data: res.data, page: pageParam };
+      try {
+        const res = await (await fetch(`${PROXY}/business/byFilterAndSortingNew?page=${pageParam}`)).json();
+        if (res.message) throw Error(res.message);
+        pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
+        return { data: res.data, page: pageParam };
+      } catch (err) {
+        alert(err.message);
+      }
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      return lastPage.data.length === SIZE ? lastPage.page + 1 : null;
+      return lastPage?.data?.length === SIZE ? lastPage.page + 1 : null;
     },
   });
 
