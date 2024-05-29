@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 import { useStore } from '../../stores';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { PROXY } from '../../constants/api';
+import { useState } from 'react';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 const data = [
   {
@@ -34,8 +38,26 @@ const data = [
   },
 ];
 
+const SIZE = 10;
+
 function BusinessEditList() {
   const { setIsLogin } = useStore((state) => ({ setIsLogin: state.setIsLogin }));
+  const [dataList, setDataList] = useState([]);
+
+  const { data, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['business'],
+    queryFn: async ({ pageParam }) => {
+      const res = await (await fetch(`${PROXY}/business/byFilterAndSortingNew?page=${pageParam}`)).json();
+      pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
+      return { data: res.data, page: pageParam };
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.data.length === SIZE ? lastPage.page + 1 : null;
+    },
+  });
+
+  const containerRef = useInfiniteScroll({ handleScroll: fetchNextPage, deps: [data] });
 
   const handleEditClick = (data) => {
     window.sessionStorage.setItem('admin_edit', JSON.stringify(data));
@@ -49,15 +71,16 @@ function BusinessEditList() {
         <P>지원사업명</P>
         <P>주최기관</P>
       </Category>
-      {data.map((item) => (
-        <Data key={item.id}>
-          <P>{item.id}</P>
-          <P>{item.title}</P>
-          <P>{item.agent}</P>
-          <Btn onClick={() => handleEditClick(item)}>수정</Btn>
-        </Data>
-      ))}
-      <Data></Data>
+      {dataList?.length > 0 &&
+        dataList.map((item) => (
+          <Data key={item.id}>
+            <P>{item.id}</P>
+            <P>{item.title}</P>
+            <P>{item.agent}</P>
+            <Btn onClick={() => handleEditClick(item)}>수정</Btn>
+          </Data>
+        ))}
+      <div ref={containerRef} />
     </Container>
   );
 }

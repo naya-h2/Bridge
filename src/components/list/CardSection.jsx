@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useStore } from '../../stores';
 import { makeIdxString } from '../../utils/makeIdxString';
+import { PROXY } from '../../constants/api';
 
 const SORT_TYPE_URL = {
   '마감 임박순': '/byDeadline',
@@ -18,8 +19,6 @@ const SORT_TYPE = ['마감 임박순', '최신 등록순'];
 const SIZE = 10;
 
 function CardSection() {
-  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
-
   const [sort, setSort] = useState('마감 임박순');
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [cardList, setCardList] = useState([]);
@@ -40,20 +39,6 @@ function CardSection() {
         )
       ).json();
       pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
-      // const res = await fetch('/business', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     // 'Content-Type': 'application/x-www-form-urlencoded',
-      //   },
-      //   body: JSON.stringify({
-      //     title: '이거왜이래!',
-      //     types: ['사업화', '융자', '인력', '민간기관'],
-      //     deadline: '2024-06-12',
-      //     agent: '기관이름22',
-      //     link: '/',
-      //   }),
-      // });
       return { data: res.data, page: pageParam };
     },
     initialPageParam: 0,
