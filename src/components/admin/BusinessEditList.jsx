@@ -5,39 +5,6 @@ import { PROXY } from '../../constants/api';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
-const data = [
-  {
-    id: 3,
-    title: '3번',
-    types: ['글로벌 진출'],
-    deadline: '2024-08-15',
-    agent: 'agent',
-    link: '/',
-    star: false,
-    dday: 102,
-  },
-  {
-    id: 2,
-    title: '2번',
-    types: ['인력', '융자'],
-    deadline: '2024-08-10',
-    agent: 'agent',
-    link: '/',
-    star: false,
-    dday: 97,
-  },
-  {
-    id: 1,
-    title: 'title',
-    types: ['인력'],
-    deadline: '2050-08-10',
-    agent: 'agent',
-    link: '/',
-    star: false,
-    dday: 9593,
-  },
-];
-
 const SIZE = 10;
 
 function BusinessEditList() {

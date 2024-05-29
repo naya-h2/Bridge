@@ -34,14 +34,16 @@ const INPUT_VALUE = [
 
 function BusinessPost({ type = 'post' }) {
   const { register, getValues, setValue } = useForm();
-  const { selectedList, setSelectedList } = useStore((state) => ({
+  const { selectedList, setSelectedList, setIsLogin } = useStore((state) => ({
     selectedList: state.selectedFilter,
     setSelectedList: state.setSelectedFilter,
+    setIsLogin: state.setIsLogin,
   }));
   const [isLoading, setIsLoading] = useState(false);
 
-  const postBusiness = async () => {
-    const { title, deadline, agent, link } = getValues();
+  const reqBusiness = async (type) => {
+    const { id, title, deadline, agent, link } = getValues();
+    const url = type === 'post' ? '/business' : `/business/${id}`;
     const data = {
       title,
       types: selectedList,
@@ -49,25 +51,20 @@ function BusinessPost({ type = 'post' }) {
       agent,
       link,
     };
-    const res = await fetch(`/business`, {
-      method: 'POST',
+    const res = await fetch(url, {
+      method: type === 'post' ? 'POST' : 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
     setIsLoading(false);
-    alert('등록 완료!');
-    window.location.reload();
-  };
-
-  const editBusiness = () => {
-    window.sessionStorage.clear();
-    setIsLoading(false);
+    alert(`${type === 'post' ? '등록' : '수정'} 완료!`);
+    setIsLogin('edit_list');
   };
 
   useEffect(() => {
-    if (isLoading) type === 'post' ? postBusiness() : editBusiness();
+    if (isLoading) reqBusiness(type);
   }, [isLoading]);
 
   useEffect(() => {
@@ -77,6 +74,7 @@ function BusinessPost({ type = 'post' }) {
     }
     if (type === 'edit') {
       const defaultValue = JSON.parse(window.sessionStorage.getItem('admin_edit'));
+      setValue('id', defaultValue.id);
       setValue('title', defaultValue.title);
       setValue('agent', defaultValue.agent);
       setValue('deadline', defaultValue.deadline);
@@ -87,6 +85,7 @@ function BusinessPost({ type = 'post' }) {
 
   return (
     <Container>
+      <input hidden {...register('id')} />
       {INPUT_VALUE.map((input) => (
         <Label key={input.registerName}>
           {input.label}
