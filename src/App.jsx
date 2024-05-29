@@ -3,7 +3,7 @@ import ListPage from './pages/list/ListPage';
 import HomePage from './pages/home/HomePage';
 import { Route, Routes } from 'react-router-dom';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-import BusinessPage from './pages/business/BusinessPage.jsx';
+import BusinessPage from './pages/post/BusinessPage.jsx';
 import AdminPage from './pages/admin/AdminPage.jsx';
 
 function App() {

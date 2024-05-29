@@ -49,15 +49,16 @@ function BusinessPost({ type = 'post' }) {
       agent,
       link,
     };
-    console.log(data);
     const res = await fetch(`/business`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: data,
+      body: JSON.stringify(data),
     });
     setIsLoading(false);
+    alert('등록 완료!');
+    window.location.reload();
   };
 
   const editBusiness = () => {

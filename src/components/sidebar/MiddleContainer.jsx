@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const menuList = [
   { icon: menu2, text: '캘린더', url: '/calendar' },
-  { icon: menu3, text: 'AI 사업계획서', url: '/business' },
+  { icon: menu3, text: 'AI 사업계획서', url: '/post' },
   { icon: menu4, text: '지원사업 리스트', url: '/list' },
 ];
 

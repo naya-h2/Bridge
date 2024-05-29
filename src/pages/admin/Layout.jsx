@@ -5,6 +5,7 @@ import BusinessPost from '../../components/admin/BusinessPost';
 import arrowBack from '../../assets/icon/arrow-back.svg';
 import BusinessEditList from '../../components/admin/BusinessEditList';
 import { useEffect } from 'react';
+import AiList from '../../components/admin/AiList';
 
 const TITLE = {
   main: '',
@@ -38,6 +39,7 @@ function Layout() {
     post: <BusinessPost />,
     edit_list: <BusinessEditList />,
     edit_post: <BusinessPost type="edit" />,
+    ai_list: <AiList />,
   };
 
   return (
