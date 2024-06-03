@@ -11,11 +11,11 @@ function BusinessEditList() {
   const { setIsLogin } = useStore((state) => ({ setIsLogin: state.setIsLogin }));
   const [dataList, setDataList] = useState([]);
 
-  const { data, fetchNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['business'],
     queryFn: async ({ pageParam }) => {
       try {
-        const res = await (await fetch(`${PROXY}/business/byFilterAndSortingNew?page=${pageParam}`)).json();
+        const res = await (await fetch(`${PROXY}/api/business/byFilterAndSortingNew?page=${pageParam}`)).json();
         if (res.message) throw Error(res.message);
         pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
         return { data: res.data, page: pageParam };
@@ -52,6 +52,7 @@ function BusinessEditList() {
             <Btn onClick={() => handleEditClick(item)}>수정</Btn>
           </Data>
         ))}
+      {isLoading && <p>사업 목록 로딩중..</p>}
       <div ref={containerRef} />
     </Container>
   );

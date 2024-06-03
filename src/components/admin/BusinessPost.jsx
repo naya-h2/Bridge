@@ -4,6 +4,7 @@ import FilterContent from '../commons/FilterContent';
 import { useStore } from '../../stores';
 import { useForm } from 'react-hook-form';
 import { funnelNextBtn } from '../../styles/button';
+import { PROXY } from '../../constants/api';
 
 const INPUT_VALUE = [
   {
@@ -43,7 +44,7 @@ function BusinessPost({ type = 'post' }) {
 
   const reqBusiness = async (type) => {
     const { id, title, deadline, agent, link } = getValues();
-    const url = type === 'post' ? '/business' : `/business/${id}`;
+    const url = PROXY + (type === 'post' ? '/api/business' : `/api/business/${id}`);
     const data = {
       title,
       types: selectedList,
@@ -51,16 +52,25 @@ function BusinessPost({ type = 'post' }) {
       agent,
       link,
     };
-    const res = await fetch(url, {
-      method: type === 'post' ? 'POST' : 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    setIsLoading(false);
-    alert(`${type === 'post' ? '등록' : '수정'} 완료!`);
-    setIsLogin('edit_list');
+    try {
+      const res = await fetch(url, {
+        method: type === 'post' ? 'POST' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (res.status > 201) {
+        const errorObj = await res.json();
+        throw Error(errorObj.message);
+      }
+      alert(`${type === 'post' ? '등록' : '수정'} 완료!`);
+      setIsLogin('edit_list');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
