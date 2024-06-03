@@ -1,4 +1,4 @@
 export const createAdminSlice = (set) => ({
-  isLogin: 'main',
+  isLogin: '',
   setIsLogin: (login) => set((state) => ({ ...state, isLogin: login })),
 });

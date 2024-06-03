@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 const SIZE = 10;
 
 function AiList() {
-  const { setIsLogin } = useStore((state) => ({ setIsLogin: state.setIsLogin }));
   const [dataList, setDataList] = useState([]);
 
   const { data, fetchNextPage, isLoading } = useInfiniteQuery({

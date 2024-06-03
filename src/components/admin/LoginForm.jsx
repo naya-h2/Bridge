@@ -14,7 +14,7 @@ function LoginForm() {
   };
 
   return (
-    <Container>
+    <Container onSubmit={handleLoginClick}>
       <Heading>로그인</Heading>
       <Label>
         아이디
@@ -24,7 +24,7 @@ function LoginForm() {
         비밀번호
         <Input placeholder="비밀번호" {...register('admin_pw')} />
       </Label>
-      <Button onClick={handleLoginClick}>로그인</Button>
+      <Button>로그인</Button>
     </Container>
   );
 }
