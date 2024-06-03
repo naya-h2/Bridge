@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { PROXY } from '../../constants/api';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import { Link } from 'react-router-dom';
 
 const SIZE = 10;
 
@@ -11,11 +12,11 @@ function AiList() {
   const { setIsLogin } = useStore((state) => ({ setIsLogin: state.setIsLogin }));
   const [dataList, setDataList] = useState([]);
 
-  const { data, fetchNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['ai'],
     queryFn: async ({ pageParam }) => {
       try {
-        const res = await (await fetch(`${PROXY}/plan?page=${pageParam}`)).json();
+        const res = await (await fetch(`${PROXY}/api/plan?page=${pageParam}`)).json();
         if (res.message) throw Error(res.message);
         pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
         return { data: res.data, page: pageParam };
@@ -33,8 +34,9 @@ function AiList() {
 
   return (
     <Container>
+      <Guide>ID값 누르면 상세 보기</Guide>
       <Category>
-        <P>결제 시각</P>
+        <P>ID</P>
         <P>아이템 소개</P>
         <P>이름</P>
         <P>이메일</P>
@@ -42,13 +44,18 @@ function AiList() {
         <P>독스훈트 전달</P>
       </Category>
       {dataList?.length > 0 &&
-        dataList.map((item) => (
-          <Data key={item.id}>
-            <P>{item.id}</P>
+        dataList.map(({ member, item }) => (
+          <Data key={item.itemId}>
+            <Link to={`${process.env.REACT_APP_BASE_URL}/api/plan/${item.itemId}`}>
+              <P>{item.itemId}</P>
+            </Link>
             <P>{item.title}</P>
-            <P>{item.term3}</P>
+            <P>{member.name}</P>
+            <P>{member.email}</P>
+            <P>{`${item.term3}`}</P>
           </Data>
         ))}
+      {isLoading && <p>내역 불러오는 중..</p>}
       <div ref={containerRef} />
     </Container>
   );
@@ -61,6 +68,13 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
+const Guide = styled.p`
+  font-size: 12px;
+  color: gray;
+
+  margin-bottom: 8px;
+`;
+
 const Category = styled.div`
   padding: 12px 24px;
 
@@ -71,11 +85,11 @@ const Category = styled.div`
   font-weight: 500;
   letter-spacing: -0.28px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 `;
 
 const P = styled.p`
-  width: 30%;
   display: flex;
   align-items: center;
 `;
@@ -90,5 +104,6 @@ const Data = styled.div`
   font-weight: 400;
   letter-spacing: -0.28px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
 `;
