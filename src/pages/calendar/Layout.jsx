@@ -33,21 +33,26 @@ function Layout() {
   const { data, refetch } = useQuery({
     queryKey: ['month-business', month, idxString],
     queryFn: async () => {
-      const res = await (await fetch(`${PROXY}/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
-      setDataList([...res]);
+      try {
+        const res = await (await fetch(`${PROXY}/api/business/byMonthAndFilter?date=${month}&${idxString}`)).json();
+        if (res.code) throw Error(res.message);
+        setDataList([...res]);
 
-      let count = {};
+        let count = {};
 
-      res.map((data) => {
-        if (count[data.deadline] === undefined) {
-          count[data.deadline] = 1;
-        } else {
-          count[data.deadline]++;
-        }
-      });
+        res.map((data) => {
+          if (count[data.deadline] === undefined) {
+            count[data.deadline] = 1;
+          } else {
+            count[data.deadline]++;
+          }
+        });
 
-      setDataCount({ ...count });
-      return res;
+        setDataCount({ ...count });
+        return res;
+      } catch (error) {
+        alert(`⚠️ ${error.message}`);
+      }
     },
   });
 

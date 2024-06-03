@@ -7,10 +7,11 @@ import { useEffect, useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useStore } from '../../stores';
 import { makeIdxString } from '../../utils/makeIdxString';
+import { PROXY } from '../../constants/api';
 
 const SORT_TYPE_URL = {
-  '마감 임박순': '/byDeadline',
-  '최신 등록순': '/byNew',
+  '마감 임박순': '/byFilterAndSortingDeadline',
+  '최신 등록순': '/byFilterAndSortingNew',
 };
 
 const SORT_TYPE = ['마감 임박순', '최신 등록순'];
@@ -18,8 +19,6 @@ const SORT_TYPE = ['마감 임박순', '최신 등록순'];
 const SIZE = 10;
 
 function CardSection() {
-  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
-
   const [sort, setSort] = useState('마감 임박순');
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [cardList, setCardList] = useState([]);
@@ -34,31 +33,18 @@ function CardSection() {
   const { data, isLoading, isSuccess, fetchNextPage, refetch } = useInfiniteQuery({
     queryKey: ['business'],
     queryFn: async ({ pageParam }) => {
-      const res = await (
-        await fetch(
-          idxString !== '' ? `${PROXY}/business/byFilter?page=${pageParam}&${idxString}` : `${PROXY}/business${SORT_TYPE_URL[sort]}?page=${pageParam}`
-        )
-      ).json();
-      pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
-      // const res = await fetch('/business', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     // 'Content-Type': 'application/x-www-form-urlencoded',
-      //   },
-      //   body: JSON.stringify({
-      //     title: '이거왜이래!',
-      //     types: ['사업화', '융자', '인력', '민간기관'],
-      //     deadline: '2024-06-12',
-      //     agent: '기관이름22',
-      //     link: '/',
-      //   }),
-      // });
-      return { data: res.data, page: pageParam };
+      try {
+        const res = await (await fetch(`${PROXY}/api/business${SORT_TYPE_URL[sort]}?page=${pageParam}&${idxString}`)).json();
+        if (res.code) throw Error(res.message);
+        pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
+        return { data: res.data, page: pageParam };
+      } catch (error) {
+        alert(`⚠️ ${error.message}`);
+      }
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
-      return lastPage.data.length === SIZE ? lastPage.page + 1 : null;
+      return lastPage?.data?.length === SIZE ? lastPage.page + 1 : null;
     },
   });
   const containerRef = useInfiniteScroll({ handleScroll: fetchNextPage, deps: [data] });
@@ -101,9 +87,9 @@ function CardSection() {
         </SortWrapper>
       )}
       <ListContainer>
-        {isSuccess && cardList.length === 0 && <NoInfoMsg>해당 데이터가 없습니다.</NoInfoMsg>}
-        {cardList.length > 0 && cardList.map((business) => <BusinessCard key={business.id} business={business} />)}
-        {isLoading && <div>로딩중....</div>}
+        {isSuccess && cardList?.length === 0 && <NoInfoMsg>해당 데이터가 없습니다.</NoInfoMsg>}
+        {cardList?.length > 0 && cardList.map((business) => <BusinessCard key={business.id} business={business} />)}
+        {isLoading && <div>사업을 불러오는 중입니다!</div>}
         <div ref={containerRef} />
       </ListContainer>
     </SectionLayout>

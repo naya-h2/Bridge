@@ -1,5 +1,5 @@
 [[redirects]]
-from = "/api/*"
-  to = "http://15.164.213.31:8080/api/:splat"  
+from = "/proxy/*"
+  to = "http://13.124.99.13:8082/:splat"  
   status = 200
   force = true

@@ -23,7 +23,7 @@ const FilterContent = () => {
   };
 
   useEffect(() => {
-    setSelectedList([]);
+    if (!window.sessionStorage.getItem('admin_edit')) setSelectedList([]);
   }, []);
 
   return (
