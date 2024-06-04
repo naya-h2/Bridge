@@ -5,10 +5,11 @@ import Agreement from '../../components/business/Agreement';
 import TitleLayout from '../../components/business/TitleLayout';
 import RequiredPost from '../../components/business/RequiredPost';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OptionalPost from '../../components/business/OptionalPost';
 import PersonalPost from '../../components/business/PersonalPost';
 import PayPost from '../../components/business/PayPost';
+import toast from 'react-hot-toast';
 
 const STEP_NAME = ['약관동의', '필수항목 작성', '선택항목 작성', '기본정보 입력', '결제'];
 
@@ -16,18 +17,44 @@ function Layout() {
   const [step, setStep] = useState(STEP_NAME[0]);
   const methods = useForm();
 
-  const handleNextClick = () => {
-    console.log(methods.getValues());
+  const autoSaveFunc = () => {
+    const { input1, input2, input3, input4, input5, name, email, birth, phoneNumber, work } = methods.getValues();
+    window.localStorage.setItem(
+      'ai-plan',
+      JSON.stringify({
+        input1,
+        input2,
+        input3,
+        input4,
+        input5,
+        name,
+        email,
+        birth,
+        phoneNumber,
+        work,
+      })
+    );
+    toast.success('자동저장 중..');
+  };
+
+  const handleNextStep = () => {
+    if (step !== STEP_NAME[0]) autoSaveFunc();
     return setStep(STEP_NAME[STEP_NAME.indexOf(step) + 1]);
   };
 
   const STEP_COMPONENT = {
-    약관동의: <Agreement handleNextStep={handleNextClick} />,
-    '필수항목 작성': <RequiredPost handleNextStep={handleNextClick} />,
-    '선택항목 작성': <OptionalPost handleNextStep={handleNextClick} />,
-    '기본정보 입력': <PersonalPost handleNextStep={handleNextClick} />,
+    약관동의: <Agreement handleNextStep={handleNextStep} />,
+    '필수항목 작성': <RequiredPost handleNextStep={handleNextStep} />,
+    '선택항목 작성': <OptionalPost handleNextStep={handleNextStep} />,
+    '기본정보 입력': <PersonalPost handleNextStep={handleNextStep} />,
     결제: <PayPost />,
   };
+
+  useEffect(() => {
+    const autoSave = setInterval(autoSaveFunc, 30 * 1000);
+    if (step === STEP_NAME[0]) clearInterval(autoSave);
+    return () => clearInterval(autoSave);
+  }, [step]);
 
   return (
     <FormProvider {...methods}>
