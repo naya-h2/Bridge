@@ -1,13 +1,87 @@
 import styled, { css } from 'styled-components';
 import BtnLayout from './BtnLayout';
-import payLogo from '../../assets/image/logo_Npay.png';
+import payLogo from '../../assets/image/logo_Kpay.png';
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { PROXY } from '../../constants/api';
 
 function PayPost() {
   const [isPaySelected, setIsPaySelected] = useState(false);
+  const { getValues } = useFormContext();
+
+  const handleClickKakaopay = () => {
+    const randomId = new Date().getTime();
+    window.IMP.init(process.env.REACT_APP_PAY_CODE);
+    const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
+    window.IMP.request_pay(
+      {
+        pg: 'kakaopay.TC0ONETIME',
+        merchant_uid: `${randomId}`, // 상점에서 생성한 고유 주문번호
+        name: '예비창업패키지 사업계획서 1부',
+        amount: 299900,
+        buyer_email: email,
+        buyer_name: name,
+        buyer_tel: phoneNumber,
+        m_redirect_url: '/post/results',
+      },
+      async function (rsp) {
+        if (rsp.success) {
+          const body = {
+            user: {
+              name,
+              email,
+              birth,
+              phoneNumber,
+            },
+            item: {
+              title,
+              input1,
+              input2,
+              input3,
+              input4,
+              input5,
+              term1,
+              term2,
+              term3,
+            },
+          };
+          //사계서 등록
+          const res = await (
+            await fetch(`${PROXY}/api/plan`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(body),
+            })
+          ).json();
+
+          //결제정보 등록
+          const payRes = await fetch(`${PROXY}/api/order`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              itemId: String(res.item.itemId),
+              merchantUid: String(randomId),
+              payMethod: 'kakaopay',
+              amount: '299900',
+            }),
+          });
+
+          window.location.replace('/post/results');
+
+          window.localStorage.removeItem('ai-plan');
+        } else {
+          alert('결제에 실패하였습니다.');
+        }
+      }
+    );
+  };
 
   return (
-    <BtnLayout btnText="결제하기" disabled={!isPaySelected}>
+    <BtnLayout btnText="결제하기" disabled={!isPaySelected} onBtnClick={handleClickKakaopay}>
       <DividingLine />
       <SectionWrapper>
         결제내역
@@ -23,7 +97,7 @@ function PayPost() {
           <PayBox>계좌결제</PayBox> */}
           <PayBox $isSelected={isPaySelected} onClick={() => setIsPaySelected((prev) => !prev)}>
             <Logo src={payLogo} />
-            네이버페이
+            카카오페이
           </PayBox>
         </PayWrapper>
       </SectionWrapper>

@@ -1,19 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InputBox from './InputBox';
 import BtnLayout from './BtnLayout';
 import { useFormContext } from 'react-hook-form';
 import HeadSection from './HeadSection';
 import { MAX_LENGTH } from '../../constants/funnel';
+import SaveModal from '../commons/Modal/SaveModal';
 
 function RequiredPost({ handleNextStep }) {
   const { watch } = useFormContext();
   const { input1, input2 } = watch();
   const isDisabled = !(input2?.length >= 200 && input2?.length <= MAX_LENGTH && input1?.length > 0);
 
+  const [isSave, setIsSave] = useState(false);
+
   useEffect(() => {
-    if (window.localStorage.getItem('ai')) {
-      console.log('저장된 내용이 있습니다. 불러올까요?');
+    const saveInfo = window.localStorage.getItem('ai-plan');
+    if (saveInfo) {
+      const saveInfoObj = JSON.parse(saveInfo);
+      if (saveInfoObj.title || saveInfoObj.input1) setIsSave(true);
     }
   }, []);
 
@@ -24,6 +29,7 @@ function RequiredPost({ handleNextStep }) {
       </HeadSection>
       <InputBox stepNum={0} height={76} />
       <InputBox stepNum={1} height={256} />
+      {isSave && <SaveModal closeModal={() => setIsSave(false)} />}
     </BtnLayout>
   );
 }
