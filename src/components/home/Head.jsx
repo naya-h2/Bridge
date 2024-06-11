@@ -11,7 +11,7 @@ const NAV = [
     text: '지원사업 리스트',
     src: '/list',
   },
-  { text: 'AI 사업계획서', src: '/business' },
+  { text: 'AI 사업계획서', src: '/post' },
 ];
 
 function Head() {

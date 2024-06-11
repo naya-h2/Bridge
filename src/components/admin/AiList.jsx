@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useStore } from '../../stores';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { PROXY } from '../../constants/api';
 import { useState } from 'react';
@@ -31,6 +30,20 @@ function AiList() {
 
   const containerRef = useInfiniteScroll({ handleScroll: fetchNextPage, deps: [data] });
 
+  const sendDocs = async (itemId) => {
+    const res = await fetch(`${PROXY}/api/plan/isSent`, {
+      method: 'POST',
+      body: JSON.stringify({
+        id: String(itemId),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log(res.status);
+  };
+
   return (
     <Container>
       <Guide>ID값 누르면 상세 보기</Guide>
@@ -43,15 +56,18 @@ function AiList() {
         <P>독스훈트 전달</P>
       </Category>
       {dataList?.length > 0 &&
-        dataList.map(({ member, item }) => (
+        dataList.map(({ user, item }) => (
           <Data key={item.itemId}>
             <Link to={`${process.env.REACT_APP_BASE_URL}/api/plan/${item.itemId}`}>
               <P>{item.itemId}</P>
             </Link>
             <P>{item.title}</P>
-            <P>{member.name}</P>
-            <P>{member.email}</P>
+            <P>{user.name}</P>
+            <P>{user.email}</P>
             <P>{`${item.term3}`}</P>
+            <P $isClick={!item.isSent} onClick={item.isSent ? null : () => sendDocs(item.itemId)}>
+              {item.isSent ? '완료' : '전달'}
+            </P>
           </Data>
         ))}
       {isLoading && <p>내역 불러오는 중..</p>}
@@ -91,6 +107,9 @@ const Category = styled.div`
 const P = styled.p`
   display: flex;
   align-items: center;
+
+  cursor: ${({ $isClick }) => ($isClick ? 'pointer' : null)};
+  text-decoration: ${({ $isClick }) => ($isClick ? 'underline' : null)};
 `;
 
 const Data = styled.div`

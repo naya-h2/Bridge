@@ -1,6 +1,7 @@
 import calendarIcon from '../../assets/icon/home-list.svg';
 import aiIcon from '../../assets/icon/home-ai.svg';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const CONTENT = {
   calendar: {
@@ -12,6 +13,7 @@ const CONTENT = {
     detail:
       '지원사업의 합격은 나에게 딱 맞는 지원사업을 찾는 것에서 시작합니다. 지원사업캘린더가 당신에게 알맞은 지원사업을 추천해드리고, 관리해드릴게요. 지원사업캘린더와 함께 사업자금을 확보하세요.',
     btn: '지원사업 리스트 바로가기',
+    url: '/list',
   },
   ai: {
     type: 'AI 사업계획서 작성',
@@ -22,10 +24,13 @@ const CONTENT = {
     detail:
       '사업계획서는 저희가 작성할게요, 대표님은 사업에만 집중하세요.　　 1억 이상의 가치를 가진 사업계획서를 단돈 19만원에 제공합니다. 걱정마세요. 전문 컨설팅팀에서 최종 확인 및 수정 절차를 모두 진행합니다. 누구보다 빠르게 사업을 성장시키세요. ',
     btn: 'AI 사업계획서 작성해보기',
+    url: '/post',
   },
 };
 
 function Content({ type }) {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Type>{CONTENT[type].type}</Type>
@@ -34,7 +39,7 @@ function Content({ type }) {
       <MainText>{CONTENT[type].main2}</MainText>
       <SubText>{CONTENT[type].sub}</SubText>
       <DetailText $type={type}>{CONTENT[type].detail}</DetailText>
-      <Button>{CONTENT[type].btn}</Button>
+      <Button onClick={() => navigate(CONTENT[type].url)}>{CONTENT[type].btn}</Button>
     </Container>
   );
 }
