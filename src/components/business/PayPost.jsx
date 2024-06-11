@@ -4,12 +4,15 @@ import payLogo from '../../assets/image/logo_Kpay.png';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { PROXY } from '../../constants/api';
+import PayLoadingModal from '../commons/Modal/PayLoadingModal';
 
 function PayPost() {
   const [isPaySelected, setIsPaySelected] = useState(false);
   const { getValues } = useFormContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickKakaopay = () => {
+    setIsLoading(true);
     const randomId = new Date().getTime();
     window.IMP.init(process.env.REACT_APP_PAY_CODE);
     const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
@@ -73,6 +76,7 @@ function PayPost() {
           window.location.replace('/post/results');
 
           window.localStorage.removeItem('ai-plan');
+          setIsLoading(false);
         } else {
           alert('결제에 실패하였습니다.');
         }
@@ -101,6 +105,7 @@ function PayPost() {
           </PayBox>
         </PayWrapper>
       </SectionWrapper>
+      {isLoading && <PayLoadingModal />}
     </BtnLayout>
   );
 }

@@ -18,7 +18,7 @@ function Layout() {
   const methods = useForm();
 
   const autoSaveFunc = () => {
-    const { input1, input2, input3, input4, input5, name, email, birth, phoneNumber, work } = methods.getValues();
+    const { input1, input2, input3, input4, input5, name, email, birth, phoneNumber, title } = methods.getValues();
     window.localStorage.setItem(
       'ai-plan',
       JSON.stringify({
@@ -31,7 +31,7 @@ function Layout() {
         email,
         birth,
         phoneNumber,
-        work,
+        title,
       })
     );
     toast.success('자동저장 중..');

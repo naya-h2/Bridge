@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { MAX_LENGTH } from '../../constants/funnel';
 
 const POST_STEP = [
-  { name: 'input1', title: '01. 아이템 한 줄 소개', isRequired: true, placeholder: '예시) 차량 공유 서비스 플랫폼 Uber', length: -1 },
+  { name: 'input1', title: '01. 아이템 한 줄 소개', isRequired: true, placeholder: '예시) 차량 공유 서비스 플랫폼 Uber', length: 60 },
   {
     name: 'input2',
     title: '02. 아이템 설명',
