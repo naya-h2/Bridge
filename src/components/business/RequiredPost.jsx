@@ -15,8 +15,10 @@ function RequiredPost({ handleNextStep }) {
   const [isSave, setIsSave] = useState(false);
 
   useEffect(() => {
-    if (window.localStorage.getItem('ai-plan')) {
-      setIsSave(true);
+    const saveInfo = window.localStorage.getItem('ai-plan');
+    if (saveInfo) {
+      const saveInfoObj = JSON.parse(saveInfo);
+      if (saveInfoObj.title || saveInfoObj.input1) setIsSave(true);
     }
   }, []);
 
