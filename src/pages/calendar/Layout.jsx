@@ -14,10 +14,10 @@ import { format } from 'date-fns';
 import { makeIdxString } from '../../utils/makeIdxString';
 import arrowRight from '../../assets/icon/arrow-right.svg';
 import arrowLeft from '../../assets/icon/arrow-left.svg';
+import { PROXY } from '../../constants/api';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
-  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
   const today = new Date();
 
   const [selectedDate, setSelectedDate] = useState(today);
