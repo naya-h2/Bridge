@@ -5,14 +5,22 @@ import CardSection from '../../components/list/CardSection';
 
 function Layout() {
   return (
-    <ContainerWrapper>
-      <FilterSection />
-      <Line />
-      <CardSection />
-    </ContainerWrapper>
+    <Wrapper>
+      <Sidebar />
+      <ContainerWrapper>
+        <FilterSection />
+        <Line />
+        <CardSection />
+      </ContainerWrapper>
+    </Wrapper>
   );
 }
 export default Layout;
+
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
 
 const ContainerWrapper = styled.div`
   display: flex;

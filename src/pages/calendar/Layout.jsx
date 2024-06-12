@@ -14,6 +14,7 @@ import { makeIdxString } from '../../utils/makeIdxString';
 import arrowRight from '../../assets/icon/arrow-right.svg';
 import arrowLeft from '../../assets/icon/arrow-left.svg';
 import { PROXY } from '../../constants/api';
+import Sidebar from '../../components/sidebar/Sidebar';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
@@ -83,55 +84,63 @@ function Layout() {
   };
 
   return (
-    <Container>
-      <Title>캘린더</Title>
-      <CalendarContainer>
-        <CalendarWrapper>
-          <Calendar
-            value={selectedDate}
-            onChange={handleDateChange}
-            onClickMonth={(date) => setMonth(format(date, 'yyyy-MM'))}
-            prevLabel={<ArrowButton src={arrowLeft} onClick={handlePrevMonthClick} />}
-            nextLabel={<ArrowButton src={arrowRight} onClick={handleNextMonthClick} />}
-            formatDay={(locale, date) => moment(date).format('D')} // 일 제거 숫자만 보이게
-            formatYear={(locale, date) => moment(date).format('YYYY')} // 네비게이션 눌렀을때 숫자 년도만 보이게
-            formatMonthYear={(locale, date) => moment(date).format('MM월')}
-            calendarType="gregory" // 일요일 부터 시작
-            showNeighboringMonth={false} // 전달, 다음달 날짜 숨기기
-            next2Label={null} // +1년 & +10년 이동 버튼 숨기기
-            prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
-            minDetail="year" // 10년단위 년도 숨기기
-            tileContent={({ date, view }) => {
-              const curDate = format(date, 'yyyy-MM-dd');
-              if (dataCount[curDate] !== undefined) {
-                return (
-                  <>
-                    <Chip hasActive={curDate === format(selectedDate, 'yyyy-MM-dd')}>{dataCount[curDate]}</Chip>
-                  </>
-                );
-              }
-            }}
-          />
-          <CardContainer>
-            {dataList && dataList.length > 0 ? (
-              dataList.map((business) => <BusinessList key={business.id} data={business} />)
-            ) : (
-              <NoDataMsg>데이터가 없습니다.</NoDataMsg>
-            )}
-          </CardContainer>
-        </CalendarWrapper>
-        <FilterBox>
-          <FilterWrapper>
-            필터
-            <SearchButton handleClick={handleSearchClick} />
-          </FilterWrapper>
-          <FilterContent />
-        </FilterBox>
-      </CalendarContainer>
-    </Container>
+    <Wrapper>
+      <Sidebar />
+      <Container>
+        <Title>캘린더</Title>
+        <CalendarContainer>
+          <CalendarWrapper>
+            <Calendar
+              value={selectedDate}
+              onChange={handleDateChange}
+              onClickMonth={(date) => setMonth(format(date, 'yyyy-MM'))}
+              prevLabel={<ArrowButton src={arrowLeft} onClick={handlePrevMonthClick} />}
+              nextLabel={<ArrowButton src={arrowRight} onClick={handleNextMonthClick} />}
+              formatDay={(locale, date) => moment(date).format('D')} // 일 제거 숫자만 보이게
+              formatYear={(locale, date) => moment(date).format('YYYY')} // 네비게이션 눌렀을때 숫자 년도만 보이게
+              formatMonthYear={(locale, date) => moment(date).format('MM월')}
+              calendarType="gregory" // 일요일 부터 시작
+              showNeighboringMonth={false} // 전달, 다음달 날짜 숨기기
+              next2Label={null} // +1년 & +10년 이동 버튼 숨기기
+              prev2Label={null} // -1년 & -10년 이동 버튼 숨기기
+              minDetail="year" // 10년단위 년도 숨기기
+              tileContent={({ date, view }) => {
+                const curDate = format(date, 'yyyy-MM-dd');
+                if (dataCount[curDate] !== undefined) {
+                  return (
+                    <>
+                      <Chip hasActive={curDate === format(selectedDate, 'yyyy-MM-dd')}>{dataCount[curDate]}</Chip>
+                    </>
+                  );
+                }
+              }}
+            />
+            <CardContainer>
+              {dataList && dataList.length > 0 ? (
+                dataList.map((business) => <BusinessList key={business.id} data={business} />)
+              ) : (
+                <NoDataMsg>데이터가 없습니다.</NoDataMsg>
+              )}
+            </CardContainer>
+          </CalendarWrapper>
+          <FilterBox>
+            <FilterWrapper>
+              필터
+              <SearchButton handleClick={handleSearchClick} />
+            </FilterWrapper>
+            <FilterContent />
+          </FilterBox>
+        </CalendarContainer>
+      </Container>
+    </Wrapper>
   );
 }
 export default Layout;
+
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
 
 const Container = styled.div`
   display: flex;

@@ -57,20 +57,28 @@ function Layout() {
   }, [step]);
 
   return (
-    <FormProvider {...methods}>
-      <Container>
-        <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
-          <StepWrapper>
-            {STEP_COMPONENT[step]}
-            <StepBar curStep={STEP_NAME.indexOf(step)} />
-          </StepWrapper>
-        </TitleLayout>
-      </Container>
-    </FormProvider>
+    <Wrapper>
+      <Sidebar />
+      <FormProvider {...methods}>
+        <Container>
+          <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
+            <StepWrapper>
+              {STEP_COMPONENT[step]}
+              <StepBar curStep={STEP_NAME.indexOf(step)} />
+            </StepWrapper>
+          </TitleLayout>
+        </Container>
+      </FormProvider>
+    </Wrapper>
   );
 }
 
 export default Layout;
+
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
 
 const Container = styled.div`
   max-width: 1440px;
