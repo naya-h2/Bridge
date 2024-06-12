@@ -58,7 +58,6 @@ function Layout() {
 
   return (
     <FormProvider {...methods}>
-      <Sidebar index={1} />
       <Container>
         <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
           <StepWrapper>
@@ -75,9 +74,8 @@ export default Layout;
 
 const Container = styled.div`
   max-width: 1440px;
-  min-width: 1024px;
+  min-width: 1020px;
 
-  margin-left: 296px;
   padding: 96px 80px;
 `;
 

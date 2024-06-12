@@ -5,14 +5,11 @@ import CardSection from '../../components/list/CardSection';
 
 function Layout() {
   return (
-    <>
-      <Sidebar index={2} />
-      <ContainerWrapper>
-        <FilterSection />
-        <Line />
-        <CardSection />
-      </ContainerWrapper>
-    </>
+    <ContainerWrapper>
+      <FilterSection />
+      <Line />
+      <CardSection />
+    </ContainerWrapper>
   );
 }
 export default Layout;
@@ -23,7 +20,6 @@ const ContainerWrapper = styled.div`
   max-width: calc(100vw - 296px);
   min-width: 1020px;
 
-  margin-left: 296px;
   padding: 32px 42px;
 `;
 
