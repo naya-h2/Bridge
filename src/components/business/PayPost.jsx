@@ -18,7 +18,7 @@ function PayPost() {
     const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
     window.IMP.request_pay(
       {
-        pg: 'kakaopay.TC0ONETIME',
+        pg: `kakaopay.${process.env.REACT_APP_PAY_MID}`,
         merchant_uid: `${randomId}`, // 상점에서 생성한 고유 주문번호
         name: '예비창업패키지 사업계획서 1부',
         amount: 299900,
@@ -79,6 +79,7 @@ function PayPost() {
           setIsLoading(false);
         } else {
           alert('결제에 실패하였습니다.');
+          setIsLoading(false);
         }
       }
     );
