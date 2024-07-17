@@ -40,8 +40,6 @@ function AiList() {
         'Content-Type': 'application/json',
       },
     });
-
-    console.log(res.status);
   };
 
   return (
@@ -58,7 +56,7 @@ function AiList() {
       {dataList?.length > 0 &&
         dataList.map(({ user, item }) => (
           <Data key={item.itemId}>
-            <Link to={`${process.env.REACT_APP_BASE_URL}/api/plan/${item.itemId}`}>
+            <Link to={`${PROXY}/api/plan/${item.itemId}`}>
               <P>{item.itemId}</P>
             </Link>
             <P>{item.title}</P>

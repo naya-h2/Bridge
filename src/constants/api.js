@@ -1,1 +1,1 @@
-export const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+export const PROXY = 'https://api.bridgeai.co.kr';
