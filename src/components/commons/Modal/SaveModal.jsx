@@ -1,4 +1,3 @@
-import React from 'react';
 import ModalFrame from './ModalFrame';
 import styled from 'styled-components';
 import { useFormContext } from 'react-hook-form';

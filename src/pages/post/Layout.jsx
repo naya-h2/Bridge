@@ -18,7 +18,7 @@ function Layout() {
   const methods = useForm();
 
   const autoSaveFunc = () => {
-    const { input1, input2, input3, input4, input5, name, email, birth, phoneNumber, work } = methods.getValues();
+    const { input1, input2, input3, input4, input5, name, email, birth, phoneNumber, title } = methods.getValues();
     window.localStorage.setItem(
       'ai-plan',
       JSON.stringify({
@@ -31,7 +31,7 @@ function Layout() {
         email,
         birth,
         phoneNumber,
-        work,
+        title,
       })
     );
     toast.success('자동저장 중..');
@@ -57,27 +57,33 @@ function Layout() {
   }, [step]);
 
   return (
-    <FormProvider {...methods}>
-      <Sidebar index={1} />
-      <Container>
-        <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
-          <StepWrapper>
-            {STEP_COMPONENT[step]}
-            <StepBar curStep={STEP_NAME.indexOf(step)} />
-          </StepWrapper>
-        </TitleLayout>
-      </Container>
-    </FormProvider>
+    <Wrapper>
+      <Sidebar />
+      <FormProvider {...methods}>
+        <Container>
+          <TitleLayout type={step === STEP_NAME[4] ? '결제' : '작성'}>
+            <StepWrapper>
+              {STEP_COMPONENT[step]}
+              <StepBar curStep={STEP_NAME.indexOf(step)} />
+            </StepWrapper>
+          </TitleLayout>
+        </Container>
+      </FormProvider>
+    </Wrapper>
   );
 }
 
 export default Layout;
 
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
+
 const Container = styled.div`
   max-width: 1440px;
-  min-width: 1024px;
+  min-width: 1020px;
 
-  margin-left: 296px;
   padding: 96px 80px;
 `;
 

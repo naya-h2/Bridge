@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Sidebar from '../../components/sidebar/Sidebar';
 import FilterContent from '../../components/commons/FilterContent';
 import SearchButton from '../../components/commons/SearchButton';
 import { useStore } from '../../stores';
@@ -14,10 +13,11 @@ import { format } from 'date-fns';
 import { makeIdxString } from '../../utils/makeIdxString';
 import arrowRight from '../../assets/icon/arrow-right.svg';
 import arrowLeft from '../../assets/icon/arrow-left.svg';
+import { PROXY } from '../../constants/api';
+import Sidebar from '../../components/sidebar/Sidebar';
 
 function Layout() {
   const { selectedList } = useStore((state) => ({ selectedList: state.selectedFilter }));
-  const PROXY = window.location.hostname === 'localhost' ? '' : '/api';
   const today = new Date();
 
   const [selectedDate, setSelectedDate] = useState(today);
@@ -84,8 +84,8 @@ function Layout() {
   };
 
   return (
-    <>
-      <Sidebar index={0} />
+    <Wrapper>
+      <Sidebar />
       <Container>
         <Title>캘린더</Title>
         <CalendarContainer>
@@ -132,19 +132,22 @@ function Layout() {
           </FilterBox>
         </CalendarContainer>
       </Container>
-    </>
+    </Wrapper>
   );
 }
 export default Layout;
+
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: calc(100vw - 296px);
-  min-width: 1020px;
 
-  margin-left: 296px;
   padding: 32px 42px;
 `;
 

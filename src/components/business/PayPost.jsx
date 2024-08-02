@@ -4,18 +4,21 @@ import payLogo from '../../assets/image/logo_Kpay.png';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { PROXY } from '../../constants/api';
+import PayLoadingModal from '../commons/Modal/PayLoadingModal';
 
 function PayPost() {
   const [isPaySelected, setIsPaySelected] = useState(false);
   const { getValues } = useFormContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClickKakaopay = () => {
+    setIsLoading(true);
     const randomId = new Date().getTime();
     window.IMP.init(process.env.REACT_APP_PAY_CODE);
     const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
     window.IMP.request_pay(
       {
-        pg: 'kakaopay.TC0ONETIME',
+        pg: `kakaopay.${process.env.REACT_APP_PAY_MID}`,
         merchant_uid: `${randomId}`, // 상점에서 생성한 고유 주문번호
         name: '예비창업패키지 사업계획서 1부',
         amount: 299900,
@@ -73,8 +76,10 @@ function PayPost() {
           window.location.replace('/post/results');
 
           window.localStorage.removeItem('ai-plan');
+          setIsLoading(false);
         } else {
           alert('결제에 실패하였습니다.');
+          setIsLoading(false);
         }
       }
     );
@@ -101,6 +106,7 @@ function PayPost() {
           </PayBox>
         </PayWrapper>
       </SectionWrapper>
+      {isLoading && <PayLoadingModal />}
     </BtnLayout>
   );
 }

@@ -5,17 +5,22 @@ import CardSection from '../../components/list/CardSection';
 
 function Layout() {
   return (
-    <>
-      <Sidebar index={2} />
+    <Wrapper>
+      <Sidebar />
       <ContainerWrapper>
         <FilterSection />
         <Line />
         <CardSection />
       </ContainerWrapper>
-    </>
+    </Wrapper>
   );
 }
 export default Layout;
+
+const Wrapper = styled.div`
+  display: flex;
+  min-width: 1020px;
+`;
 
 const ContainerWrapper = styled.div`
   display: flex;
@@ -23,7 +28,6 @@ const ContainerWrapper = styled.div`
   max-width: calc(100vw - 296px);
   min-width: 1020px;
 
-  margin-left: 296px;
   padding: 32px 42px;
 `;
 
