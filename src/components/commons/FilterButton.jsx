@@ -42,6 +42,7 @@ const Button = styled.button`
   border: 1px solid ${({ $selected }) => ($selected ? '#3686FF' : '#DCDCDC')};
   border-radius: 40px;
 
+  color: black;
   font-weight: 500;
   font-size: 16px;
   white-space: nowrap;
