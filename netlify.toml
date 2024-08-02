@@ -1,5 +1,10 @@
 [[redirects]]
 from = "/proxy/*"
-  to = "http://43.201.17.170:8082/:splat"  
+  to = "https://api.bridgeai.co.kr/:splat"  
   status = 200
   force = true
+
+[[redirects]]
+from = "/*"
+  to = "/index.html"
+  status = 200

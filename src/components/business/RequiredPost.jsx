@@ -10,7 +10,7 @@ import SaveModal from '../commons/Modal/SaveModal';
 function RequiredPost({ handleNextStep }) {
   const { watch } = useFormContext();
   const { input1, input2 } = watch();
-  const isDisabled = !(input2?.length >= 200 && input2?.length <= MAX_LENGTH && input1?.length > 0);
+  const isDisabled = !(input1?.length >= 60 && input2?.length >= 200 && input2?.length <= MAX_LENGTH);
 
   const [isSave, setIsSave] = useState(false);
 
