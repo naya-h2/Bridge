@@ -14,7 +14,7 @@ function AiList() {
     queryKey: ['ai'],
     queryFn: async ({ pageParam }) => {
       try {
-        const res = await (await fetch(`${PROXY}/api/plan?page=${pageParam}`)).json();
+        const res = await (await fetch(`${PROXY}/admin/plan?page=${pageParam}`)).json();
         if (res.message) throw Error(res.message);
         pageParam === 0 ? setDataList(res.data) : setDataList((prev) => [...prev, ...res.data]);
         return { data: res.data, page: pageParam };
@@ -31,7 +31,7 @@ function AiList() {
   const containerRef = useInfiniteScroll({ handleScroll: fetchNextPage, deps: [data] });
 
   const sendDocs = async (itemId) => {
-    const res = await fetch(`${PROXY}/api/plan/isSent`, {
+    const res = await fetch(`${PROXY}/admin/plan/isSent`, {
       method: 'POST',
       body: JSON.stringify({
         id: String(itemId),
@@ -56,7 +56,7 @@ function AiList() {
       {dataList?.length > 0 &&
         dataList.map(({ user, item }) => (
           <Data key={item.itemId}>
-            <Link to={`${PROXY}/api/plan/${item.itemId}`}>
+            <Link to={`${PROXY}/admin/plan/${item.itemId}`}>
               <P>{item.itemId}</P>
             </Link>
             <P>{item.title}</P>
