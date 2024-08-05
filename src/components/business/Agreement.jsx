@@ -130,4 +130,5 @@ const AgreeBtn = styled.button`
   font-weight: 400;
   line-height: 160%; /* 28.8px */
   letter-spacing: -0.36px;
+  color: black;
 `;

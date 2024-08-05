@@ -20,6 +20,10 @@
   }
 }
 
+html {
+  font-size: 62.5%;
+}
+
 button {
   background: none;
   border: none;

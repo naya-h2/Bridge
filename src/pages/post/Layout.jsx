@@ -47,7 +47,7 @@ function Layout() {
     '필수항목 작성': <RequiredPost handleNextStep={handleNextStep} />,
     '선택항목 작성': <OptionalPost handleNextStep={handleNextStep} />,
     '기본정보 입력': <PersonalPost handleNextStep={handleNextStep} />,
-    결제: <PayPost />,
+    결제: <PayPost handlePrevStep={(stepNum) => setStep(STEP_NAME[stepNum])} />,
   };
 
   useEffect(() => {

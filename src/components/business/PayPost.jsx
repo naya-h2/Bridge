@@ -6,7 +6,7 @@ import { useFormContext } from 'react-hook-form';
 import { PROXY } from '../../constants/api';
 import PayLoadingModal from '../commons/Modal/PayLoadingModal';
 
-function PayPost() {
+function PayPost({ handlePrevStep }) {
   const [isPaySelected, setIsPaySelected] = useState(false);
   const { getValues } = useFormContext();
   const [isLoading, setIsLoading] = useState(false);
@@ -85,22 +85,74 @@ function PayPost() {
     );
   };
 
+  const postAI = async () => {
+    setIsLoading(true);
+    const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
+    const body = {
+      user: {
+        name,
+        email,
+        birth,
+        phoneNumber,
+      },
+      item: {
+        title,
+        input1,
+        input2,
+        input3,
+        input4,
+        input5,
+        term1,
+        term2,
+        term3,
+      },
+    };
+    //사계서 등록
+    try {
+      const res = await (
+        await fetch(`${PROXY}/api/plan`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+      ).json();
+      if (res.code) throw Error(`${res.code}/${res.message}`);
+
+      window.location.replace('/post/results');
+      window.localStorage.removeItem('ai-plan');
+    } catch (error) {
+      const err = error.message.split('/');
+      if (3001 <= err[0] && err[0] <= 3004) {
+        handlePrevStep(3);
+      }
+      alert(`⚠️ ${err[1]}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <BtnLayout btnText="결제하기" disabled={!isPaySelected} onBtnClick={handleClickKakaopay}>
+    <BtnLayout btnText="결제하기" onBtnClick={postAI}>
       <DividingLine />
       <SectionWrapper>
         결제내역
         <PackageBox>
           <p>예비창업패키지 사업계획서 1부</p>
-          <p>299,900 원</p>
+          <PriceWrapper>
+            <Price>299,900 원</Price>
+            <p>0 원</p>
+          </PriceWrapper>
         </PackageBox>
+        <NoticeText>(서비스 런칭 기념 행사 가격입니다.)</NoticeText>
       </SectionWrapper>
       <SectionWrapper>
         간편결제
         <PayWrapper>
           {/* <PayBox>카드결제</PayBox>
           <PayBox>계좌결제</PayBox> */}
-          <PayBox $isSelected={isPaySelected} onClick={() => setIsPaySelected((prev) => !prev)}>
+          <PayBox $isSelected={isPaySelected}>
             <Logo src={payLogo} />
             카카오페이
           </PayBox>
@@ -142,11 +194,25 @@ const PackageBox = styled.div`
   border: 2px solid #3686ff;
 
   display: flex;
+  align-items: center;
   justify-content: space-between;
 
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.36px;
+`;
+
+const PriceWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const NoticeText = styled.p`
+  color: #9d9a9a;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: end;
 `;
 
 const Logo = styled.img`
@@ -157,6 +223,12 @@ const Logo = styled.img`
 const PayWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const disabledBox = css`
+  cursor: not-allowed;
+  background-color: #dedede5f;
+  opacity: 60%;
 `;
 
 const PayBox = styled.div`
@@ -178,4 +250,10 @@ const PayBox = styled.div`
   &:hover {
     background-color: #dedede5f;
   }
+
+  ${disabledBox};
+`;
+
+const Price = styled.p`
+  text-decoration: line-through;
 `;
