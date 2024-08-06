@@ -24,6 +24,7 @@ function LoginForm() {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     });
 
     if (res.ok) {
