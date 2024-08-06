@@ -1,20 +1,40 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useStore } from '../../stores';
+import { PROXY } from '../../constants/api';
 
 function LoginForm() {
   const { register, getValues } = useForm();
-  const { setIsLogin } = useStore((state) => ({ setIsLogin: state.setIsLogin }));
+  const { setIsLogin, setAccessToken } = useStore((state) => ({
+    setIsLogin: state.setIsLogin,
+    setAccessToken: state.setAccessToken,
+  }));
 
-  const handleLoginClick = () => {
+  const handleLoginClick = async (event) => {
+    event.preventDefault();
     const { admin_email, admin_pw } = getValues();
-    if (process.env.REACT_APP_ADMIN_EMAIL === admin_email && process.env.REACT_APP_ADMIN_PW === admin_pw) {
+    const body = {
+      username: admin_email,
+      password: admin_pw,
+    };
+
+    const res = await fetch(`${PROXY}/login`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+
+    if (res.ok) {
       setIsLogin('main');
+      setAccessToken(res.headers.get('Authorization'));
     } else alert('⚠️ 관리자만 접근 가능한 페이지입니다.');
   };
 
   return (
-    <Container onSubmit={handleLoginClick}>
+    <Container onSubmit={(e) => handleLoginClick(e)}>
       <Heading>로그인</Heading>
       <Label>
         아이디
