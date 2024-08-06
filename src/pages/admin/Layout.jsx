@@ -6,6 +6,7 @@ import arrowBack from '../../assets/icon/arrow-back.svg';
 import BusinessEditList from '../../components/admin/BusinessEditList';
 import { useEffect } from 'react';
 import AiList from '../../components/admin/AiList';
+import { PROXY } from '../../constants/api';
 
 const TITLE = {
   main: '',
@@ -15,9 +16,10 @@ const TITLE = {
 };
 
 function Layout() {
-  const { isLogin, setIsLogin } = useStore((state) => ({
+  const { isLogin, setIsLogin, setAccessToken } = useStore((state) => ({
     isLogin: state.isLogin,
     setIsLogin: state.setIsLogin,
+    setAccessToken: state.setAccessToken,
   }));
 
   const AdminMain = () => {
@@ -41,6 +43,21 @@ function Layout() {
     edit_post: <BusinessPost type="edit" />,
     ai_list: <AiList />,
   };
+
+  const reissueToken = async () => {
+    const res = await fetch(`${PROXY}/reissue`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    if (res.ok) {
+      setIsLogin('main');
+      setAccessToken(res.headers.get('Authorization'));
+    }
+  };
+
+  useEffect(() => {
+    reissueToken();
+  }, []);
 
   return (
     <>
