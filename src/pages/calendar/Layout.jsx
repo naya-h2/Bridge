@@ -52,6 +52,7 @@ function Layout() {
         return res;
       } catch (error) {
         alert(`⚠️ ${error.message}`);
+        setDataList([]);
       }
     },
   });
