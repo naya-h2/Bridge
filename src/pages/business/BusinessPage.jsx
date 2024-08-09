@@ -5,7 +5,8 @@ function BusinessPage() {
   return (
     <>
       <Helmet>
-        <title>사계서 조회 | Bridge</title>
+        <title>사계서 조회 | 브릿지AI 정부지원 캘린더</title>
+        <meta name="robots" content="noindex" />
       </Helmet>
       <Layout />
     </>
