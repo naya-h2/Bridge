@@ -34,7 +34,7 @@ function Layout() {
         title,
       })
     );
-    toast.success('자동저장 중..');
+    toast.success('자동저장 완료', { style: { fontSize: '14px', fontWeight: '500' } });
   };
 
   const handleNextStep = () => {
