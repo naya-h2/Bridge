@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import Layout from './Layout';
 
-function BusinessPage() {
+function PostPage() {
   return (
     <>
       <Helmet>
@@ -12,4 +12,4 @@ function BusinessPage() {
   );
 }
 
-export default BusinessPage;
+export default PostPage;
