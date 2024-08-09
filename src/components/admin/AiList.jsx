@@ -46,8 +46,11 @@ function AiList() {
       }),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
     });
+    if (res.code) alert('⚠️ 전달 체크 실패');
+    else alert('🫡 전달 체크 완료');
   };
 
   return (
@@ -64,15 +67,15 @@ function AiList() {
       {dataList?.length > 0 &&
         dataList.map(({ user, item }) => (
           <Data key={item.itemId}>
-            <Link to={`${PROXY}/admin/plan/${item.itemId}`}>
+            <Link to={`/business?id=${item.itemId}`}>
               <P>{item.itemId}</P>
             </Link>
             <P>{item.title}</P>
             <P>{user.name}</P>
             <P>{user.email}</P>
-            <P>{`${item.term3}`}</P>
-            <P $isClick={!item.isSent} onClick={item.isSent ? null : () => sendDocs(item.itemId)}>
-              {item.isSent ? '완료' : '전달'}
+            <P>{item.term3 ? '동의' : '비동의'}</P>
+            <P>
+              <input type="checkbox" defaultChecked={item.isSent} onClick={item.isSent ? null : () => sendDocs(item.itemId)} />
             </P>
           </Data>
         ))}

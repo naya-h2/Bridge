@@ -36,6 +36,11 @@ function PersonalPost({ handleNextStep }) {
   const { name, email, birth, phoneNumber, title } = watch();
   const isDisabled = !(name && email && birth && phoneNumber && title);
 
+  const makeHyphen = (e) => {
+    const target = e.target;
+    target.value = target.value.replace(/[^0-9]/g, '').replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+  };
+
   return (
     <BtnLayout btnText="작성완료" onBtnClick={handleNextStep} disabled={isDisabled}>
       <HeadSection title="PART 3">
@@ -43,7 +48,14 @@ function PersonalPost({ handleNextStep }) {
       </HeadSection>
       <InputWrapper>
         {INPUT_FRAME.map((input) => (
-          <InputLine key={input.name} name={input.name} title={input.title} placeholder={input.placeholder} inputType={input.type} />
+          <InputLine
+            key={input.name}
+            name={input.name}
+            title={input.title}
+            placeholder={input.placeholder}
+            inputType={input.type}
+            onInputFunc={input.name === 'phoneNumber' ? makeHyphen : null}
+          />
         ))}
       </InputWrapper>
       <WorkWrapper>
