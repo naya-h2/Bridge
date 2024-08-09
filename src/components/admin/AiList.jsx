@@ -46,8 +46,11 @@ function AiList() {
       }),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
       },
     });
+    if (res.code) alert('⚠️ 전달 체크 실패');
+    else alert('🫡 전달 체크 완료');
   };
 
   return (
@@ -71,8 +74,8 @@ function AiList() {
             <P>{user.name}</P>
             <P>{user.email}</P>
             <P>{`${item.term3}`}</P>
-            <P $isClick={!item.isSent} onClick={item.isSent ? null : () => sendDocs(item.itemId)}>
-              {item.isSent ? '완료' : '전달'}
+            <P>
+              <input type="checkbox" defaultChecked={item.isSent} onClick={item.isSent ? null : () => sendDocs(item.itemId)} />
             </P>
           </Data>
         ))}
