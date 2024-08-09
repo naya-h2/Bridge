@@ -6,6 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import { PROXY } from '../../constants/api';
 import PayLoadingModal from '../commons/Modal/PayLoadingModal';
 
+const PRICE = 390000;
+
 function PayPost({ handlePrevStep }) {
   const [isPaySelected, setIsPaySelected] = useState(false);
   const { getValues } = useFormContext();
@@ -21,7 +23,7 @@ function PayPost({ handlePrevStep }) {
         pg: `kakaopay.${process.env.REACT_APP_PAY_MID}`,
         merchant_uid: `${randomId}`, // 상점에서 생성한 고유 주문번호
         name: '예비창업패키지 사업계획서 1부',
-        amount: 299900,
+        amount: PRICE,
         buyer_email: email,
         buyer_name: name,
         buyer_tel: phoneNumber,
@@ -29,6 +31,7 @@ function PayPost({ handlePrevStep }) {
       },
       async function (rsp) {
         if (rsp.success) {
+          //사계서 등록
           const body = {
             user: {
               name,
@@ -48,35 +51,44 @@ function PayPost({ handlePrevStep }) {
               term3,
             },
           };
-          //사계서 등록
-          const res = await (
-            await fetch(`${PROXY}/api/plan`, {
+          try {
+            const postRes = await (
+              await fetch(`${PROXY}/api/plan`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+              })
+            ).json();
+            if (postRes.code) throw Error(`${postRes.code}/${postRes.message}`);
+
+            //결제정보 등록
+            const payRes = await fetch(`${PROXY}/api/order`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify(body),
-            })
-          ).json();
+              body: JSON.stringify({
+                itemId: String(postRes.item.itemId),
+                merchantUid: String(randomId),
+                payMethod: 'kakaopay',
+                amount: PRICE,
+              }),
+            });
+            if (payRes.code) throw Error(`${payRes.code}/${payRes.message}`);
 
-          //결제정보 등록
-          const payRes = await fetch(`${PROXY}/api/order`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              itemId: String(res.item.itemId),
-              merchantUid: String(randomId),
-              payMethod: 'kakaopay',
-              amount: '299900',
-            }),
-          });
-
-          window.location.replace('/post/results');
-
-          window.localStorage.removeItem('ai-plan');
-          setIsLoading(false);
+            window.location.replace('/post/results');
+            window.localStorage.removeItem('ai-plan');
+          } catch (error) {
+            const err = error.message.split('/');
+            if (3001 <= err[0] && err[0] <= 3004) {
+              handlePrevStep(3);
+            }
+            alert(`⚠️ ${err[1]}`);
+          } finally {
+            setIsLoading(false);
+          }
         } else {
           alert('결제에 실패하였습니다.');
           setIsLoading(false);
@@ -85,74 +97,26 @@ function PayPost({ handlePrevStep }) {
     );
   };
 
-  const postAI = async () => {
-    setIsLoading(true);
-    const { name, birth, email, phoneNumber, title, input1, input2, input3, input4, input5, term1, term2, term3 } = getValues();
-    const body = {
-      user: {
-        name,
-        email,
-        birth,
-        phoneNumber,
-      },
-      item: {
-        title,
-        input1,
-        input2,
-        input3,
-        input4,
-        input5,
-        term1,
-        term2,
-        term3,
-      },
-    };
-    //사계서 등록
-    try {
-      const res = await (
-        await fetch(`${PROXY}/api/plan`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        })
-      ).json();
-      if (res.code) throw Error(`${res.code}/${res.message}`);
-
-      window.location.replace('/post/results');
-      window.localStorage.removeItem('ai-plan');
-    } catch (error) {
-      const err = error.message.split('/');
-      if (3001 <= err[0] && err[0] <= 3004) {
-        handlePrevStep(3);
-      }
-      alert(`⚠️ ${err[1]}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <BtnLayout btnText="결제하기" onBtnClick={postAI}>
+    <BtnLayout btnText="결제하기" disabled={!isPaySelected} onBtnClick={handleClickKakaopay}>
       <DividingLine />
       <SectionWrapper>
         결제내역
         <PackageBox>
           <p>예비창업패키지 사업계획서 1부</p>
           <PriceWrapper>
-            <Price>299,900 원</Price>
-            <p>0 원</p>
+            <Price>{PRICE.toLocaleString('ko-KR')} 원</Price>
+            {/* <p>0 원</p> */}
           </PriceWrapper>
         </PackageBox>
-        <NoticeText>(서비스 런칭 기념 행사 가격입니다.)</NoticeText>
+        {/* <NoticeText>(서비스 런칭 기념 행사 가격입니다.)</NoticeText> */}
       </SectionWrapper>
       <SectionWrapper>
         간편결제
         <PayWrapper>
           {/* <PayBox>카드결제</PayBox>
           <PayBox>계좌결제</PayBox> */}
-          <PayBox $isSelected={isPaySelected}>
+          <PayBox $isSelected={isPaySelected} onClick={() => setIsPaySelected((prev) => !prev)}>
             <Logo src={payLogo} />
             카카오페이
           </PayBox>
@@ -251,7 +215,7 @@ const PayBox = styled.div`
     background-color: #dedede5f;
   }
 
-  ${disabledBox};
+  /* ${disabledBox}; */
 `;
 
 const Price = styled.p`

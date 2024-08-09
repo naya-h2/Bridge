@@ -60,32 +60,29 @@ function CardSection() {
     refetch();
   }, [idxString, sort]);
 
-  const handleSortClick = (type) => {
+  const handleSortClick = (e, type) => {
+    e.stopPropagation();
     setIsSortOpen(false);
     setSort(type);
   };
 
   return (
     <SectionLayout title="모집 중인 사업">
-      {idxString === '' && (
-        <SortWrapper>
-          <SortBox>
-            <div>{sort}</div>
-            {isSortOpen && (
-              <SortDropDown>
-                {SORT_TYPE.map((type) => (
-                  <SortType key={type} onClick={() => handleSortClick(type)}>
-                    {type}
-                  </SortType>
-                ))}
-              </SortDropDown>
-            )}
-          </SortBox>
-          <SortButton onClick={() => setIsSortOpen((prev) => !prev)}>
-            <img src={bottomArrow} alt="정렬 종류 펼쳐보기" />
-          </SortButton>
-        </SortWrapper>
-      )}
+      <SortWrapper onClick={() => setIsSortOpen((prev) => !prev)}>
+        <SortBox>
+          <div>{sort}</div>
+          {isSortOpen && (
+            <SortDropDown>
+              {SORT_TYPE.map((type) => (
+                <SortType key={type} onClick={(e) => handleSortClick(e, type)}>
+                  {type}
+                </SortType>
+              ))}
+            </SortDropDown>
+          )}
+        </SortBox>
+        <SortButton src={bottomArrow} alt="정렬 종류 펼쳐보기" />
+      </SortWrapper>
       <ListContainer>
         {isSuccess && cardList?.length === 0 && <NoInfoMsg>해당 데이터가 없습니다.</NoInfoMsg>}
         {cardList?.length > 0 && cardList.map((business) => <BusinessCard key={business.id} business={business} />)}
@@ -102,7 +99,7 @@ const ListContainer = styled.div`
   flex-direction: column;
 `;
 
-const SortWrapper = styled.div`
+const SortWrapper = styled.button`
   height: 20px;
   margin-top: -20px;
 
@@ -112,7 +109,7 @@ const SortWrapper = styled.div`
   justify-content: end;
 `;
 
-const SortButton = styled.button`
+const SortButton = styled.img`
   width: 20px;
   height: 20px;
 

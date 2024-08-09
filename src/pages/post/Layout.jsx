@@ -34,7 +34,7 @@ function Layout() {
         title,
       })
     );
-    toast.success('자동저장 중..');
+    toast.success('자동저장 완료', { style: { fontSize: '14px', fontWeight: '500' } });
   };
 
   const handleNextStep = () => {
@@ -51,6 +51,7 @@ function Layout() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const autoSave = setInterval(autoSaveFunc, 30 * 1000);
     if (step === STEP_NAME[0] && step === STEP_NAME[4]) clearInterval(autoSave);
     return () => clearInterval(autoSave);

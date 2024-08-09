@@ -4,9 +4,8 @@ import { useStore } from '../../stores';
 import BusinessPost from '../../components/admin/BusinessPost';
 import arrowBack from '../../assets/icon/arrow-back.svg';
 import BusinessEditList from '../../components/admin/BusinessEditList';
-import { useEffect } from 'react';
 import AiList from '../../components/admin/AiList';
-import { PROXY } from '../../constants/api';
+import { useRefreshToken } from '../../hooks/useRefreshToken';
 
 const TITLE = {
   main: '',
@@ -16,10 +15,10 @@ const TITLE = {
 };
 
 function Layout() {
-  const { isLogin, setIsLogin, setAccessToken } = useStore((state) => ({
+  useRefreshToken();
+  const { isLogin, setIsLogin } = useStore((state) => ({
     isLogin: state.isLogin,
     setIsLogin: state.setIsLogin,
-    setAccessToken: state.setAccessToken,
   }));
 
   const AdminMain = () => {
@@ -43,21 +42,6 @@ function Layout() {
     edit_post: <BusinessPost type="edit" />,
     ai_list: <AiList />,
   };
-
-  const reissueToken = async () => {
-    const res = await fetch(`${PROXY}/reissue`, {
-      method: 'POST',
-      credentials: 'include',
-    });
-    if (res.ok) {
-      setIsLogin('main');
-      setAccessToken(res.headers.get('Authorization'));
-    }
-  };
-
-  useEffect(() => {
-    reissueToken();
-  }, []);
 
   return (
     <>

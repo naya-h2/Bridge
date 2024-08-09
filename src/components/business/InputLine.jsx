@@ -1,13 +1,13 @@
 import { useFormContext } from 'react-hook-form';
 import styled from 'styled-components';
 
-function InputLine({ title, placeholder, name, inputType }) {
+function InputLine({ title, placeholder, name, inputType, onInputFunc }) {
   const { register } = useFormContext();
 
   return (
     <Container>
       <Title>{title}</Title>
-      <Input placeholder={placeholder} {...register(name)} type={inputType} />
+      <Input placeholder={placeholder} {...register(name)} type={inputType} onInput={(e) => onInputFunc(e) || null} />
     </Container>
   );
 }

@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# 브릿지AI 정부지원 캘린더🫧💙
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img width="480" alt="thumbnail" src="https://github.com/user-attachments/assets/f596a4e1-dde0-4fd5-8162-f90c999cbaf7">
+<br>
 
-## Available Scripts
+_실제 운영을 준비 중인 프로젝트입니다._
 
-In the project directory, you can run:
+🔗 배포 URL: http://bridgeai.co.kr/ <br>
+⌚ 개발 기간: `2024. 04.` ~ `ing`
 
-### `npm start`
+<br><br><br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 프로젝트 소개
+- [브릿지AI 정부지원 캘린더](https://www.bridgeai.co.kr/)는 성공적인 스타트업 운영을 위한 정부지원사업 • 정책자금 알리미 서비스입니다.
+- 지원사업 캘린더와 리스트 UI를 통해 나에게 딱 맞는 지원사업을 빠르게 찾아 보세요.
+- 쉽고 간단한 UI로 AI 사업계획서 작성 서비스를 이용해 보세요.
+<br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 팀원 소개
 
-### `npm test`
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/naya-h2">
+      <img width=140px src="https://avatars.githubusercontent.com/u/103186362?v=4" alt=""/><br />
+      <sub><b>[FE] 안희원</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/wiishj">
+      <img width=140px src="https://avatars.githubusercontent.com/u/79927765?v=4" alt=""/><br />
+      <sub><b>[BE] 김희진</b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>
+<br>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 기술 스택
 
-### `npm run build`
+**협업**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Notion
+- Git
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Front-End**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React.js
+- JavaScript
+- styled-components
+- React query
+- zustand
 
-### `npm run eject`
+**배포**
+- AWS EC2
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**CI/CD**
+- Github Actions
+<br>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 페이지별 기능
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 1. 홈
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><sub><b>홈페이지</b></sub><br><img width=720px src="https://github.com/user-attachments/assets/9cc22992-7815-491f-9dd3-783753cee835" alt="홈페이지 화면" /></td>
+    </tr>
+  </tbody>
+</table>
 
-## Learn More
+### 2. 캘린더
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><sub><b>지원사업 캘린더</b></sub><br><img width=720px src="https://github.com/user-attachments/assets/7d3df117-4a7b-4143-b6cd-4dc709ab3a08" alt="캘린더 화면" /></td>
+    </tr>
+  </tbody>
+</table>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 3. 지원사업 리스트
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><sub><b>지원사업 리스트</b></sub><br><img width=720px src="https://github.com/user-attachments/assets/8b4ab0d1-6848-47b6-9b67-5c0291f0b831" alt="리스트 화면" /></td>
+    </tr>
+  </tbody>
+</table>

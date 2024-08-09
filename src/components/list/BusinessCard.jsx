@@ -156,4 +156,5 @@ const TypeTag = styled.p`
   border: 1px solid #525252;
   border-radius: 40px;
   padding: 6px 16px;
+  font-size: 1.4rem;
 `;
