@@ -8,22 +8,16 @@ import { format } from 'date-fns';
 import { useStore } from '../../stores';
 
 function BusinessCard({ business }) {
-  const navigate = useNavigate();
   // const [star, setStar] = useState(business.importance);
   const { selectedList } = useStore((state) => ({
     selectedList: state.selectedFilter,
   }));
 
   return (
-    <Container>
+    <Container href={business.link} target="_blank">
       <TopContainer>
         <TitleSection>
-          <Icon
-            src={icon}
-            onClick={() => {
-              navigate(`${business.link}`);
-            }}
-          />
+          <Icon src={icon} />
           <Title>{business.title}</Title>
           <Dday>D-{business.dday}</Dday>
         </TitleSection>
@@ -50,7 +44,7 @@ function BusinessCard({ business }) {
 }
 export default BusinessCard;
 
-const Container = styled.div`
+const Container = styled.a`
   width: 100%;
 
   display: flex;
@@ -105,6 +99,7 @@ const Icon = styled.img`
 const Title = styled.p`
   max-width: 70%;
 
+  color: black;
   font-weight: 500;
   font-size: 20px;
   letter-spacing: -0.4px;
