@@ -8,6 +8,7 @@ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { useStore } from '../../stores';
 import { makeIdxString } from '../../utils/makeIdxString';
 import { PROXY } from '../../constants/api';
+import PageLoading from '../commons/PageLoading';
 
 const SORT_TYPE_URL = {
   '마감 임박순': '/byFilterAndSortingDeadline',
@@ -38,9 +39,7 @@ function CardSection() {
         if (res.code) throw Error(res.message);
         pageParam === 0 ? setCardList(res.data) : setCardList((prev) => [...prev, ...res.data]);
         return { data: res.data, page: pageParam };
-      } catch (error) {
-        alert(`⚠️ ${error.message}`);
-      }
+      } catch (error) {}
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
@@ -50,6 +49,7 @@ function CardSection() {
   const containerRef = useInfiniteScroll({ handleScroll: fetchNextPage, deps: [data] });
 
   useEffect(() => {
+    setCardList([]);
     setIdxString('');
     setIdxString(makeIdxString(selectedList));
     setIsSearchClick(false);
@@ -58,7 +58,11 @@ function CardSection() {
   useEffect(() => {
     setCardList([]);
     refetch();
-  }, [idxString, sort]);
+  }, [sort]);
+
+  useEffect(() => {
+    refetch();
+  }, [idxString]);
 
   const handleSortClick = (e, type) => {
     e.stopPropagation();
@@ -86,9 +90,9 @@ function CardSection() {
       <ListContainer>
         {isSuccess && cardList?.length === 0 && <NoInfoMsg>해당 데이터가 없습니다.</NoInfoMsg>}
         {cardList?.length > 0 && cardList.map((business) => <BusinessCard key={business.id} business={business} />)}
-        {isLoading && <div>사업을 불러오는 중입니다!</div>}
         <div ref={containerRef} />
       </ListContainer>
+      {isLoading && <PageLoading />}
     </SectionLayout>
   );
 }

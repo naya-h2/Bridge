@@ -140,7 +140,7 @@ export default Layout;
 
 const Wrapper = styled.div`
   display: flex;
-  min-width: 1020px;
+  width: 1440px;
 `;
 
 const Container = styled.div`

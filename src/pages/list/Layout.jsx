@@ -19,14 +19,13 @@ export default Layout;
 
 const Wrapper = styled.div`
   display: flex;
-  min-width: 1020px;
+  width: 1440px;
 `;
 
 const ContainerWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: calc(100vw - 296px);
-  min-width: 1020px;
+  width: calc(1440px - 296px);
 
   padding: 32px 42px;
 `;
