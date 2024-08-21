@@ -26,6 +26,8 @@ const Container = styled.div`
 const Logo = styled.img`
   width: 56px;
   height: 56px;
+
+  cursor: pointer;
 `;
 const TextContainer = styled.div`
   display: flex;
