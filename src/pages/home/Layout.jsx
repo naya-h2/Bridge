@@ -1,12 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Head from '../../components/home/Head';
 import Content from '../../components/home/Content';
 import Footer from '../../components/home/Footer';
 
 function Layout() {
-  const navigate = useNavigate();
-
   return (
     <>
       <HeadWrapper>

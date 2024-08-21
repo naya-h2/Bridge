@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { PROXY } from '../../constants/api';
 import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
+import PageLoading from '../commons/PageLoading';
 
 const SIZE = 10;
 
@@ -36,6 +37,15 @@ function BusinessEditList() {
     setIsLogin('edit_post');
   };
 
+  const handleDelClick = async (id) => {
+    const res = await fetch(`${PROXY}/api/business/${id}`, {
+      method: 'DELETE',
+    });
+    if (res.ok) alert('삭제가 왼료되었습니다.');
+    else alert('삭제를 실패하였습니다.');
+    window.location.reload();
+  };
+
   return (
     <Container>
       <Category>
@@ -50,10 +60,11 @@ function BusinessEditList() {
             <P>{item.title}</P>
             <P>{item.agent}</P>
             <Btn onClick={() => handleEditClick(item)}>수정</Btn>
+            <Btn onClick={() => handleDelClick(item.id)}>삭제</Btn>
           </Data>
         ))}
-      {isLoading && <p>사업 목록 로딩중..</p>}
       <div ref={containerRef} />
+      {isLoading && <PageLoading />}
     </Container>
   );
 }
@@ -82,6 +93,8 @@ const P = styled.p`
   width: 30%;
   display: flex;
   align-items: center;
+
+  overflow: hidden;
 `;
 
 const Data = styled.div`
@@ -95,10 +108,17 @@ const Data = styled.div`
   letter-spacing: -0.28px;
 
   display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 const Btn = styled.button`
-  padding: 8px 20px;
+  height: 36px;
+  width: 66px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   border-radius: 40px;
   background: rgba(46, 47, 51, 0.88);

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { Link } from 'react-router-dom';
 import { useStore } from '../../stores';
+import PageLoading from '../commons/PageLoading';
 
 const SIZE = 10;
 
@@ -19,7 +20,7 @@ function AiList() {
         const res = await (
           await fetch(`${PROXY}/admin/plan?page=${pageParam}`, {
             headers: {
-              Authorization: accessToken,
+              Authorization: `Bearer ${accessToken}`,
             },
           })
         ).json();
@@ -46,7 +47,7 @@ function AiList() {
       }),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: accessToken,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     if (res.code) alert('⚠️ 전달 체크 실패');
@@ -79,7 +80,7 @@ function AiList() {
             </P>
           </Data>
         ))}
-      {isLoading && <p>내역 불러오는 중..</p>}
+      {isLoading && <PageLoading />}
       <div ref={containerRef} />
     </Container>
   );

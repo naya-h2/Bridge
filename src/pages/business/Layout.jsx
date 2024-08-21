@@ -5,6 +5,7 @@ import { useStore } from '../../stores';
 import { useQuery } from '@tanstack/react-query';
 import { PROXY } from '../../constants/api';
 import styled from 'styled-components';
+import PageLoading from '../../components/commons/PageLoading';
 
 function Layout() {
   useRefreshToken();
@@ -22,7 +23,7 @@ function Layout() {
       const res = await (
         await fetch(`${PROXY}/admin/plan/${id}`, {
           headers: {
-            Authorization: accessToken,
+            Authorization: `Bearer ${accessToken}`,
             credentials: 'include',
           },
         })
@@ -81,7 +82,7 @@ function Layout() {
 
   return (
     <>
-      {isLoading && <div>로딩중...</div>}
+      {isLoading && <PageLoading />}
       {isSuccess && data && (
         <Container>
           <Title>주문자 정보</Title>

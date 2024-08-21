@@ -5,6 +5,7 @@ import { useStore } from '../../stores';
 import { useForm } from 'react-hook-form';
 import { funnelNextBtn } from '../../styles/button';
 import { PROXY } from '../../constants/api';
+import PageLoading from '../commons/PageLoading';
 
 const INPUT_VALUE = [
   {
@@ -114,6 +115,7 @@ function BusinessPost({ type = 'post' }) {
           {isLoading ? '업로드중' : '업로드'}
         </SubmitBtn>
       </BtnWrapper>
+      {isLoading && <PageLoading />}
     </Container>
   );
 }

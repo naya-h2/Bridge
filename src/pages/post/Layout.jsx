@@ -78,13 +78,11 @@ export default Layout;
 
 const Wrapper = styled.div`
   display: flex;
-  min-width: 1020px;
+  width: 1440px;
 `;
 
 const Container = styled.div`
-  max-width: 1440px;
-  min-width: 1020px;
-
+  width: calc(1440px - 296px);
   padding: 96px 80px;
 `;
 
