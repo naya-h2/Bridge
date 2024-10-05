@@ -19,7 +19,7 @@ function BusinessCard({ business }) {
         <TitleSection>
           <Icon src={icon} />
           <Title>{business.title}</Title>
-          <Dday>D-{business.dday}</Dday>
+          <Dday>{`D${business.dday < 0 ? '+' : '-'}${Math.abs(business.dday)}`}</Dday>
         </TitleSection>
         <DetailSection>
           <Agent>{business.agent}</Agent>

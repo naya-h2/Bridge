@@ -10,7 +10,7 @@ function BusinessList({ data }) {
     <Container>
       <LinkIcon src={linkIcon} onClick={() => navigate(link)} />
       <Title>{title}</Title>
-      <Dday>{`D-${dday}`}</Dday>
+      <Dday>{`D${dday < 0 ? '+' : '-'}${Math.abs(dday)}`}</Dday>
       <Agent>{agent}</Agent>
     </Container>
   );
