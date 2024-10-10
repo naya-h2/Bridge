@@ -7,7 +7,7 @@ function InputLine({ title, placeholder, name, inputType, onInputFunc }) {
   return (
     <Container>
       <Title>{title}</Title>
-      <Input placeholder={placeholder} {...register(name)} type={inputType} onInput={(e) => onInputFunc(e) || null} />
+      <Input placeholder={placeholder} {...register(name)} type={inputType} onInput={onInputFunc ? (e) => onInputFunc(e) : null} />
     </Container>
   );
 }

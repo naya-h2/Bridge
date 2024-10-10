@@ -219,5 +219,5 @@ const PayBox = styled.div`
 `;
 
 const Price = styled.p`
-  text-decoration: line-through;
+  /* text-decoration: line-through; */
 `;

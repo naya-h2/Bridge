@@ -26,7 +26,7 @@ const INPUT_FRAME = [
   {
     name: 'phoneNumber',
     title: '연락처',
-    placeholder: '010-0000-0000',
+    placeholder: '01000000000',
     type: 'tel',
   },
 ];
